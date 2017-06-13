@@ -1,0 +1,42 @@
+body {
+    margin: 0px;
+}
+
+#heading {
+    text-align: center;
+    padding: 20px;
+    background: #333;
+    color: #CCC;
+}
+
+a {
+    color: #3388ff;
+}
+
+#map {
+    position: absolute;
+    height: 95%;
+    width: 100%;
+    background-color: #333;
+}
+
+.leaflet-canvas-layer {
+    opacity: 0.55;
+}
+
+/* ICONS PERSO */
+.mico0 {
+ background-color : #336699;
+ height: 5px;
+ width: 5px;
+ border-radius: 50%;
+ border : 1.5px solid #fff;
+}
+
+.mico1 {
+ background-color : #fef65b;
+ height: 5px;
+ width: 5px;
+ border-radius: 50%;
+ border : 1.5px solid #336699;
+}
