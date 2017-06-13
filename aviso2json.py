@@ -3,7 +3,6 @@ from netCDF4 import Dataset
 import os,sys
 
 my_nc_file = sys.argv[1]
-#'/home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/msla/all-sat-merged/uv/nrt_global_allsat_msla_uv_latest.nc'
 fh = Dataset(my_nc_file, mode='r')
 
 LON=fh.variables['lon'][:]
