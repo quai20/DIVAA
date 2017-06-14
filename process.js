@@ -80,7 +80,7 @@ for (var i = 0; i < mapdata.length; i++)
 layerControl.addOverlay(argomarkers, 'Argo profiles');
 
 // ANDRO
-$.getJSON('data/andro.json', function (data) {
+$.getJSON('data/andro_gm.json', function (data) {
 
 	var velocityLayer = L.velocityLayer({
 		displayValues: true,
@@ -90,8 +90,8 @@ $.getJSON('data/andro.json', function (data) {
 			displayEmptyString: 'No velocity data'
 		},
 		data: data,
-		maxVelocity: 10,
-    velocityScale: 0.005
+		maxVelocity: 1,
+    velocityScale: 0.2
 	});
 	layerControl.addOverlay(velocityLayer, 'Andro deep velocity');
 });
