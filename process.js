@@ -79,21 +79,19 @@ for (var i = 0; i < mapdata.length; i++)
     };
 layerControl.addOverlay(argomarkers, 'Argo profiles');
 
-//ISAS
-// var heat = L.heatLayer(isas_data,{
-//       minOpacity : 0.1,
-//       radius: 50,
-//       blur: 60,
-//       maxZoom: 10,
-//       max: 60.0,
-//
-//       gradient: {
-//           0.05 : 'blue',
-//           0.1 : 'green',
-//           0.15 : 'yellow',
-//           0.20 : 'orange',
-//           0.25 : 'red'
-//
-//       }
-//   });
-// layerControl.addOverlay(heat, 'ISAS Field');
+// ANDRO
+$.getJSON('data/andro.json', function (data) {
+
+	var velocityLayer = L.velocityLayer({
+		displayValues: true,
+		displayOptions: {
+      velocityType : 'Andro deep velocity',
+			displayPosition: 'bottomleft',
+			displayEmptyString: 'No velocity data'
+		},
+		data: data,
+		maxVelocity: 10,
+    velocityScale: 0.005
+	});
+	layerControl.addOverlay(velocityLayer, 'Andro deep velocity');
+});
