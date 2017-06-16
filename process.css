@@ -15,7 +15,7 @@ a {
 
 #map {
     position: absolute;
-    height: 90%;
+    height: 100%;
     width: 100%;
     background-color: #333;
 }

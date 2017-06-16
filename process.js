@@ -32,6 +32,14 @@ function initDemoMap(){
 
     L.control.mousePosition().addTo(map);
 
+    var credctrl = L.controlCredits({
+        	image: "dist/lops.png",
+        	link: "http://www.umr-lops.fr/",
+        	text: "Website",
+          width: 96,
+          height: 88
+        }).addTo(map);
+
     return {
         map: map,
         layerControl: layerControl
