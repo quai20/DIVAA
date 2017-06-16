@@ -22,7 +22,8 @@ function initDemoMap(){
     };
 
     var map = L.map('map', {
-        layers: [ Esri_WorldImagery ]
+        layers: [ Esri_WorldImagery ],
+        minZoom : 3
     });
 
     var layerControl = L.control.layers(baseLayers);
@@ -37,7 +38,7 @@ function initDemoMap(){
     };
 }
 
-// demo map
+// map creation
 var mapStuff = initDemoMap();
 var map = mapStuff.map;
 var layerControl = mapStuff.layerControl;
@@ -56,7 +57,24 @@ $.getJSON('data/aviso.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.2
 	});
-	layerControl.addOverlay(velocityLayer, 'Aviso surface currents');
+	layerControl.addOverlay(velocityLayer, 'Aviso last day');
+});
+
+// AVISO MDT
+$.getJSON('data/aviso_mdt.json', function (data) {
+
+	var velocityLayer = L.velocityLayer({
+		displayValues: true,
+		displayOptions: {
+      velocityType : 'Aviso Surface currents',
+			displayPosition: 'bottomleft',
+			displayEmptyString: 'No current data'
+		},
+		data: data,
+		maxVelocity: 1,
+    velocityScale: 0.2
+	});
+	layerControl.addOverlay(velocityLayer, 'Aviso mdt2013');
 });
 
 //ARGO
@@ -77,7 +95,8 @@ for (var i = 0; i < mapdata.length; i++)
          }
     marker.addTo(argomarkers);
     };
-layerControl.addOverlay(argomarkers, 'Argo profiles');
+
+layerControl.addOverlay(argomarkers, 'Argo last day');
 
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
