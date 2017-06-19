@@ -23,7 +23,9 @@ function initDemoMap(){
 
     var map = L.map('map', {
         layers: [ Esri_WorldImagery ],
-        minZoom : 3
+        minZoom : 3,
+        worldCopyJump: true,
+        inertia: false
     });
 
     var layerControl = L.control.layers(baseLayers);
@@ -35,7 +37,7 @@ function initDemoMap(){
     var credctrl = L.controlCredits({
         	image: "dist/lops.png",
         	link: "http://www.umr-lops.fr/",
-        	text: "Website",
+        	text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
           width: 96,
           height: 88
         }).addTo(map);
@@ -54,7 +56,7 @@ var layerControl = mapStuff.layerControl;
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
 
-	var velocityLayer = L.velocityLayer({
+	var velocityLayer1 = L.velocityLayer({
 		displayValues: true,
 		displayOptions: {
       velocityType : 'Aviso Surface currents',
@@ -65,13 +67,13 @@ $.getJSON('data/aviso.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.2
 	});
-	layerControl.addOverlay(velocityLayer, 'Aviso last day');
+	layerControl.addOverlay(velocityLayer1, 'Aviso last day');
 });
 
 // AVISO MDT
 $.getJSON('data/aviso_mdt.json', function (data) {
 
-	var velocityLayer = L.velocityLayer({
+	var velocityLayer2 = L.velocityLayer({
 		displayValues: true,
 		displayOptions: {
       velocityType : 'Aviso Surface currents',
@@ -82,7 +84,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.2
 	});
-	layerControl.addOverlay(velocityLayer, 'Aviso mdt2013');
+	layerControl.addOverlay(velocityLayer2, 'Aviso mdt2013');
 });
 
 //ARGO
@@ -109,7 +111,7 @@ layerControl.addOverlay(argomarkers, 'Argo last day');
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
 
-	var velocityLayer = L.velocityLayer({
+	var velocityLayer3 = L.velocityLayer({
 		displayValues: true,
 		displayOptions: {
       velocityType : 'Andro deep velocity',
@@ -120,5 +122,6 @@ $.getJSON('data/andro_gm.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.2
 	});
-	layerControl.addOverlay(velocityLayer, 'Andro deep velocity');
+	layerControl.addOverlay(velocityLayer3, 'Andro deep velocity');
+  map.addLayer(velocityLayer3);
 });
