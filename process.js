@@ -117,8 +117,7 @@ for (var i = 0; i < mapdata.length; i++)
 
 layerControl.addOverlay(argomarkers, 'Argo '+WDate);
 
-//ARGO30
-
+//ARGO7
 var mapdata2=Data_ARGO7;
 var argomarkers2 = L.layerGroup();
 for (var i = 0; i < mapdata2.length; i++)
@@ -135,7 +134,6 @@ for (var i = 0; i < mapdata2.length; i++)
     };
 
 layerControl.addOverlay(argomarkers2, 'Argo 7 last days');
-
 
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
