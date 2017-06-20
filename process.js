@@ -117,6 +117,26 @@ for (var i = 0; i < mapdata.length; i++)
 
 layerControl.addOverlay(argomarkers, 'Argo '+WDate);
 
+//ARGO30
+
+var mapdata2=Data_ARGO7;
+var argomarkers2 = L.layerGroup();
+for (var i = 0; i < mapdata2.length; i++)
+    {
+    if(mapdata2[i].Institution == 'IF') {
+      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: cssic1});
+      marker.bindPopup(mapdata2[i].Platform + "<br><b>Type </b>: " + mapdata2[i].mtype + "<br><b>Profile date </b>: " + mapdata2[i].Time + "<br><b>DAC </b>: " + mapdata2[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata2[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
+    }
+    else {
+      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: cssic0});
+      marker.bindPopup(mapdata2[i].Platform + "<br><b>Type </b>: " + mapdata2[i].mtype + "<br><b>Profile date </b>: " + mapdata2[i].Time + "<br><b>DAC </b>: " + mapdata2[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata2[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
+         }
+    marker.addTo(argomarkers2);
+    };
+
+layerControl.addOverlay(argomarkers2, 'Argo 7 last days');
+
+
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
 
