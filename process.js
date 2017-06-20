@@ -123,5 +123,5 @@ $.getJSON('data/andro_gm.json', function (data) {
     velocityScale: 0.2
 	});
 	layerControl.addOverlay(velocityLayer3, 'Andro deep velocity');
-  map.addLayer(velocityLayer3);
+  map.addLayer(velocityLayer3); //Default display when page loads
 });
