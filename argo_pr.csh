@@ -14,6 +14,7 @@ echo $DATE
 NAME='ARGO'
 echo -n $BIGR ':' $NAME '...'
 outf=$NAME.js
+outf2=WDate.js
 ###### GLOBAL ########
 #Selection du type de données dans le fichier source
 grep "/profiles/" $LA | grep -E $DATE > $tempdir/temp1
@@ -32,10 +33,13 @@ printf("{\"latitude\":%f,\"longitude\":%f,\"mtype\":\"%s\",\"Platform\":\"%s\",\
 }' $tempdir/temp3 >> $outf
 #fermeture du .js
 echo "];" >> $outf
+#write date
+echo "var WDate = \"$1\";"  >> $outf2
 #supression du repertoire temporaire
 rm -r $tempdir
 #move to final destination
 mv $outf data/
+mv $outf2 data/
 echo 'ok'
 #remove index file
 rm $LA

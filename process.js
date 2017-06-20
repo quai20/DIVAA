@@ -67,7 +67,7 @@ $.getJSON('data/aviso.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.2
 	});
-	layerControl.addOverlay(velocityLayer1, 'Aviso last day');
+	layerControl.addOverlay(velocityLayer1, 'Aviso '+WDate);
 });
 
 // AVISO MDT
@@ -106,7 +106,7 @@ for (var i = 0; i < mapdata.length; i++)
     marker.addTo(argomarkers);
     };
 
-layerControl.addOverlay(argomarkers, 'Argo last day');
+layerControl.addOverlay(argomarkers, 'Argo '+WDate);
 
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
