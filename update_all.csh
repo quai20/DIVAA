@@ -6,7 +6,7 @@ cd bin/
 #ARGO INDEX
 #wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_global_prof.txt
 wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_this_week_prof.txt
-
+#
 #### ARGO7
 echo -n "argo 7 last days ... "
 ./argo_n.csh
@@ -31,5 +31,5 @@ echo -n "argo $dlatest ... "
 echo "ok"
 #write date
 echo "var WDate = \"$dlatest\";"  > ../data/WDate.js
-
+#clear
 rm ar_index_this_week_prof.txt

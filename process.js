@@ -74,7 +74,7 @@ $.getJSON('data/aviso.json', function (data) {
 		},
 		data: data,
 		maxVelocity: 1,
-    velocityScale: 0.2
+    velocityScale: 0.3
 	});
 	layerControl.addOverlay(velocityLayer1, 'Aviso '+WDate);
 });
@@ -91,25 +91,25 @@ $.getJSON('data/aviso_mdt.json', function (data) {
 		},
 		data: data,
 		maxVelocity: 1,
-    velocityScale: 0.2
+    velocityScale: 0.3
 	});
 	layerControl.addOverlay(velocityLayer2, 'Aviso mdt2013');
 });
 
 //ARGO
-var cssic0 = L.divIcon({className: 'mico0', iconsize: [5, 5]});
-var cssic1 = L.divIcon({className: 'mico1', iconsize: [5, 5]});
+ico1 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#fdfe02'};
+ico2 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#ffffff'};
 
 var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
 for (var i = 0; i < mapdata.length; i++)
     {
     if(mapdata[i].Institution == 'IF') {
-      var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: cssic1});
+      var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: L.BeautifyIcon.icon(ico1)});
       marker.bindPopup(mapdata[i].Platform + "<br><b>Type </b>: " + mapdata[i].mtype + "<br><b>Profile date </b>: " + mapdata[i].Time + "<br><b>DAC </b>: " + mapdata[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
     }
     else {
-      var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: cssic0});
+      var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: L.BeautifyIcon.icon(ico2)});
       marker.bindPopup(mapdata[i].Platform + "<br><b>Type </b>: " + mapdata[i].mtype + "<br><b>Profile date </b>: " + mapdata[i].Time + "<br><b>DAC </b>: " + mapdata[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
          }
     marker.addTo(argomarkers);
@@ -123,17 +123,18 @@ var argomarkers2 = L.layerGroup();
 for (var i = 0; i < mapdata2.length; i++)
     {
     if(mapdata2[i].Institution == 'IF') {
-      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: cssic1});
+      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: L.BeautifyIcon.icon(ico1)});
       marker.bindPopup(mapdata2[i].Platform + "<br><b>Type </b>: " + mapdata2[i].mtype + "<br><b>Profile date </b>: " + mapdata2[i].Time + "<br><b>DAC </b>: " + mapdata2[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata2[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
     }
     else {
-      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: cssic0});
+      var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: L.BeautifyIcon.icon(ico2)});
       marker.bindPopup(mapdata2[i].Platform + "<br><b>Type </b>: " + mapdata2[i].mtype + "<br><b>Profile date </b>: " + mapdata2[i].Time + "<br><b>DAC </b>: " + mapdata2[i].Institution + "<br><a href=\"http://www.ifremer.fr/co-argoFloats/float?ptfCode=" + mapdata2[i].Platform + "\" target=\"_blank\" > Argo Float Coriolis Page</a>");
          }
     marker.addTo(argomarkers2);
     };
 
 layerControl.addOverlay(argomarkers2, 'Argo 7 last days');
+map.addLayer(argomarkers2);
 
 // ANDRO
 $.getJSON('data/andro_gm.json', function (data) {
@@ -147,7 +148,7 @@ $.getJSON('data/andro_gm.json', function (data) {
 		},
 		data: data,
 		maxVelocity: 1,
-    velocityScale: 0.2
+    velocityScale: 0.3
 	});
 	layerControl.addOverlay(velocityLayer3, 'Andro deep velocity');
   map.addLayer(velocityLayer3); //Default display when page loads
