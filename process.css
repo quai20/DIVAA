@@ -23,20 +23,3 @@ a {
 .leaflet-canvas-layer {
     opacity: 0.55;
 }
-
-/* ICONS PERSO */
-.mico0 {
- background-color : #336699;
- height: 5px;
- width: 5px;
- border-radius: 50%;
- border : 1.5px solid #fff;
-}
-
-.mico1 {
- background-color : #fef65b;
- height: 5px;
- width: 5px;
- border-radius: 50%;
- border : 1.5px solid #336699;
-}
