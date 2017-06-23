@@ -76,7 +76,8 @@ $.getJSON('data/aviso.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.3
 	});
-	layerControl.addOverlay(velocityLayer1, 'Aviso '+WDate);
+  htmlName='<font color="red">Aviso Currents: '+WDate+'</font> <a target="_blank" href="https://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/madt-h-uv.html"><img src="dist/info.png" height="15" width="15"></a>'
+	layerControl.addOverlay(velocityLayer1, htmlName);
 });
 
 // AVISO MDT
@@ -93,7 +94,8 @@ $.getJSON('data/aviso_mdt.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.3
 	});
-	layerControl.addOverlay(velocityLayer2, 'Aviso mdt2013');
+  htmlName='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a>'
+	layerControl.addOverlay(velocityLayer2, htmlName);
 });
 
 //ARGO
@@ -114,8 +116,8 @@ for (var i = 0; i < mapdata.length; i++)
          }
     marker.addTo(argomarkers);
     };
-
-layerControl.addOverlay(argomarkers, 'Argo '+WDate);
+htmlName='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+layerControl.addOverlay(argomarkers, htmlName);
 
 //ARGO7
 var mapdata2=Data_ARGO7;
@@ -132,8 +134,8 @@ for (var i = 0; i < mapdata2.length; i++)
          }
     marker.addTo(argomarkers2);
     };
-
-layerControl.addOverlay(argomarkers2, 'Argo 7 last days');
+htmlName='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+layerControl.addOverlay(argomarkers2, htmlName);
 map.addLayer(argomarkers2);
 
 // ANDRO
@@ -150,7 +152,8 @@ $.getJSON('data/andro_gm.json', function (data) {
 		maxVelocity: 1,
     velocityScale: 0.3
 	});
-	layerControl.addOverlay(velocityLayer3, 'Andro deep velocity');
+  htmlName='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
+	layerControl.addOverlay(velocityLayer3, htmlName);
   map.addLayer(velocityLayer3); //Default display when page loads
 });
 
