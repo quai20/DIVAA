@@ -154,6 +154,7 @@ $.getJSON('data/andro_gm.json', function (data) {
   map.addLayer(velocityLayer3); //Default display when page loads
 });
 
+//FIXING bUG OF MOVING AND CHANGING VELOCITY LAYER
 map.on({
     overlayadd: function(e) {
         a=map.getCenter();
