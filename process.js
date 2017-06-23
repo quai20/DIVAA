@@ -153,3 +153,10 @@ $.getJSON('data/andro_gm.json', function (data) {
 	layerControl.addOverlay(velocityLayer3, 'Andro deep velocity');
   map.addLayer(velocityLayer3); //Default display when page loads
 });
+
+map.on({
+    overlayadd: function(e) {
+        a=map.getCenter();
+        map.panTo([a.lat+0.01,a.lng+0.01]);
+    }
+});
