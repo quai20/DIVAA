@@ -179,10 +179,10 @@ function SubMarkerClick(smarker) {
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
   "<br><b>TEMPERATURE PROFILE</b>" +
-  "<br><img src=\""+tempurl+"\" alt=\"toto\">" +
+  "<br><img src=\""+tempurl+"\" alt=\"not available\">" +
   "<br><b>PRACTICAL SALINITY PROFILE</b>" +
-  "<br><img src=\""+psalurl+"\" alt=\"toto\">" +
-  "<br><b>THIS YEAR TRAJECTORY</b>" + 
-  "<br><img src=\""+trajurl+"\" alt=\"toto\">");
+  "<br><img src=\""+psalurl+"\" alt=\"not available\">" +
+  "<br><b>THIS YEAR TRAJECTORY</b>" +
+  "<br><img src=\""+trajurl+"\" alt=\"not available\">");
   sidebar.show();
 }
