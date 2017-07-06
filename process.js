@@ -67,7 +67,8 @@ var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 //Side Panel
 var sidebar = L.control.sidebar('sidebar', {
   closeButton: true,
-  position: 'left'
+  position: 'left',
+  autoPan: 'off'
 });
 map.addControl(sidebar);
 
@@ -177,8 +178,11 @@ function SubMarkerClick(smarker) {
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
+  "<br><b>TEMPERATURE PROFILE</b>" +
   "<br><img src=\""+tempurl+"\" alt=\"toto\">" +
+  "<br><b>PRACTICAL SALINITY PROFILE</b>" +
   "<br><img src=\""+psalurl+"\" alt=\"toto\">" +
+  "<br><b>THIS YEAR TRAJECTORY</b>" + 
   "<br><img src=\""+trajurl+"\" alt=\"toto\">");
   sidebar.show();
 }
