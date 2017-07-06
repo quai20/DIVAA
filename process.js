@@ -69,9 +69,9 @@ var sidebar = L.control.sidebar('sidebar', {
 });
 map.addControl(sidebar);
 
+//CHAMPS DE VITESSES
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
-
   var velocityLayer1 = L.velocityLayer({
     displayValues: true,
     displayOptions: {
@@ -89,7 +89,6 @@ $.getJSON('data/aviso.json', function (data) {
 
 // AVISO MDT
 $.getJSON('data/aviso_mdt.json', function (data) {
-
   var velocityLayer2 = L.velocityLayer({
     displayValues: true,
     displayOptions: {
@@ -105,7 +104,25 @@ $.getJSON('data/aviso_mdt.json', function (data) {
   layerControl.addOverlay(velocityLayer2, htmlName2);
 });
 
-//ARGO
+// ANDRO
+$.getJSON('data/andro_gm.json', function (data) {
+  var velocityLayer3 = L.velocityLayer({
+    displayValues: true,
+    displayOptions: {
+      velocityType : 'Andro deep velocity',
+      displayPosition: 'bottomleft',
+      displayEmptyString: 'No velocity data'
+    },
+    data: data,
+    maxVelocity: 1,
+    velocityScale: 0.3
+  });
+  htmlName3='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
+  layerControl.addOverlay(velocityLayer3, htmlName3);
+  map.addLayer(velocityLayer3); //Default display when page loads
+});
+
+//ARGO DAY
 ico1 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#fdfe02'};
 ico2 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#ffffff'};
 
@@ -128,8 +145,8 @@ for (var i = 0; i < mapdata.length; i++)
 
   marker.addTo(argomarkers);
 };
-htmlName3='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
-layerControl.addOverlay(argomarkers, htmlName3);
+htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+layerControl.addOverlay(argomarkers, htmlName4);
 
 //ARGO7
 var mapdata2=Data_ARGO7;
@@ -150,33 +167,12 @@ for (var i = 0; i < mapdata2.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i].Platform,mapdata2[i].Time,mapdata2[i].Institution,tempurl,psalurl,trajurl));
   marker.addTo(argomarkers2);
 };
-htmlName4='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
-layerControl.addOverlay(argomarkers2, htmlName4);
+htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
-// ANDRO
-$.getJSON('data/andro_gm.json', function (data) {
-
-  var velocityLayer3 = L.velocityLayer({
-    displayValues: true,
-    displayOptions: {
-      velocityType : 'Andro deep velocity',
-      displayPosition: 'bottomleft',
-      displayEmptyString: 'No velocity data'
-    },
-    data: data,
-    maxVelocity: 1,
-    velocityScale: 0.3
-  });
-  htmlName5='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
-  layerControl.addOverlay(velocityLayer3, htmlName5);
-  map.addLayer(velocityLayer3); //Default display when page loads
-});
-
+//GESTION DU PANNEAU LATERAL
 function SubMarkerClick(pl,time,inst,tpurl,psurl,tjurl) {
-  console.log(tpurl);
-  console.log(psurl);
-  console.log(tjurl);
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + time +
   "<br><b>DAC </b>: " + inst +
