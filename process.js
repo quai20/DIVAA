@@ -186,3 +186,12 @@ function SubMarkerClick(smarker) {
   "<br><img src=\""+trajurl+"\" alt=\"not available\">");
   sidebar.show();
 }
+
+//TEST ACCES ERDAPP VIA AJAX
+// $.ajax({
+//       url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?longitude,latitude&time%3E=2017-06-24T00%3A00%3A00Z&time%3C=2017-06-25T00%3A00%3A00Z",
+//       dataType: 'json',
+//       success:function(data){
+//           console.log(data);
+//       }
+// });
