@@ -142,7 +142,7 @@ for (var i = 0; i < mapdata.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata[i]));
   marker.addTo(argomarkers);
 };
-htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home/"><img src="dist/info.png" height="15" width="15"></a>'
 layerControl.addOverlay(argomarkers, htmlName4);
 
 //ARGO7
@@ -160,7 +160,7 @@ for (var i = 0; i < mapdata2.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i]));
   marker.addTo(argomarkers2);
 };
-htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
