@@ -186,6 +186,10 @@ function SubMarkerClick(smarker) {
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
 }
+//REMOVE MARKER
+sidebar.on('hide', function () {
+     map.removeLayer(curmarker);
+ });
 
 //TEST ACCES ERDAPP VIA AJAX
 // $.ajax({
