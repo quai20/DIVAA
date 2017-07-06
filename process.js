@@ -138,7 +138,6 @@ for (var i = 0; i < mapdata.length; i++)
   }
   //popup sidebar
   marker.on('click',L.bind(SubMarkerClick,null,mapdata[i]));
-
   marker.addTo(argomarkers);
 };
 htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
