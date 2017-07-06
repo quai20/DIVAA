@@ -172,18 +172,18 @@ function SubMarkerClick(smarker) {
   ti=smarker.Time;
   pl=smarker.Platform;
   inst=smarker.Institution;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers";
+  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers";
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
   "<br><b>TEMPERATURE PROFILE</b>" +
-  "<br><img src=\""+tempurl+"\" alt=\"not available\">" +
+  "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
   "<br><b>PRACTICAL SALINITY PROFILE</b>" +
-  "<br><img src=\""+psalurl+"\" alt=\"not available\">" +
+  "<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
   "<br><b>LAST YEAR TRAJECTORY</b>" +
-  "<br><img src=\""+trajurl+"\" alt=\"not available\">");
+  "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
 }
 
