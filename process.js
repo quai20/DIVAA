@@ -130,10 +130,6 @@ var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
 for (var i = 0; i < mapdata.length; i++)
 {
-  ti=mapdata[i].Time;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+mapdata[i].Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+mapdata[i].Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude&time%3E="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z&platform_number=%22"+mapdata[i].Platform+"%22&.draw=linesAndMarkers";
   if(mapdata[i].Institution == 'IF') {
     var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: L.BeautifyIcon.icon(ico1)});
   }
@@ -141,7 +137,7 @@ for (var i = 0; i < mapdata.length; i++)
     var marker = L.marker([mapdata[i].latitude,mapdata[i].longitude],{title: mapdata[i].Platform,icon: L.BeautifyIcon.icon(ico2)});
   }
   //popup sidebar
-  marker.on('click',L.bind(SubMarkerClick,null,mapdata[i].Platform,mapdata[i].Time,mapdata[i].Institution,tempurl,psalurl,trajurl));
+  marker.on('click',L.bind(SubMarkerClick,null,mapdata[i]));
 
   marker.addTo(argomarkers);
 };
@@ -153,10 +149,6 @@ var mapdata2=Data_ARGO7;
 var argomarkers2 = L.layerGroup();
 for (var i = 0; i < mapdata2.length; i++)
 {
-  ti=mapdata2[i].Time;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+mapdata2[i].Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+mapdata2[i].Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude&time%3E="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z&platform_number=%22"+mapdata2[i].Platform+"%22&.draw=linesAndMarkers";
   if(mapdata2[i].Institution == 'IF') {
     var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: L.BeautifyIcon.icon(ico1)});
   }
@@ -164,7 +156,7 @@ for (var i = 0; i < mapdata2.length; i++)
     var marker = L.marker([mapdata2[i].latitude,mapdata2[i].longitude],{title: mapdata2[i].Platform,icon: L.BeautifyIcon.icon(ico2)});
   }
   //popup sidebar
-  marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i].Platform,mapdata2[i].Time,mapdata2[i].Institution,tempurl,psalurl,trajurl));
+  marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i]));
   marker.addTo(argomarkers2);
 };
 htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.argodatamgt.org/"><img src="dist/info.png" height="15" width="15"></a>'
@@ -172,12 +164,18 @@ layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
 //GESTION DU PANNEAU LATERAL
-function SubMarkerClick(pl,time,inst,tpurl,psurl,tjurl) {
+function SubMarkerClick(smarker) {
+  ti=smarker.Time;
+  pl=smarker.Platform;
+  inst=smarker.Institution;
+  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude&time%3E="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers";
   sidebar.setContent("<b>Float </b>: "+ pl +
-  "<br><b>Profile date </b>: " + time +
+  "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
-  "<br><img src=\""+tpurl+"\" alt=\"toto\">" +
-  "<br><img src=\""+psurl+"\" alt=\"toto\">" +
-  "<br><img src=\""+tjurl+"\" alt=\"toto\">");
+  "<br><img src=\""+tempurl+"\" alt=\"toto\">" +
+  "<br><img src=\""+psalurl+"\" alt=\"toto\">" +
+  "<br><img src=\""+trajurl+"\" alt=\"toto\">");
   sidebar.show();
 }
