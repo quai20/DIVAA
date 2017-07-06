@@ -61,6 +61,8 @@ function initDemoMap(){
 var mapStuff = initDemoMap();
 var map = mapStuff.map;
 var layerControl = mapStuff.layerControl;
+ico0 = {iconShape: 'circle-dot', borderWidth: 5, borderColor: '#50f308'};
+var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 
 //Side Panel
 var sidebar = L.control.sidebar('sidebar', {
@@ -164,6 +166,8 @@ map.addLayer(argomarkers2);
 
 //GESTION DU PANNEAU LATERAL
 function SubMarkerClick(smarker) {
+  curmarker.setLatLng([smarker.latitude,smarker.longitude]);
+  curmarker.addTo(map);
   ti=smarker.Time;
   pl=smarker.Platform;
   inst=smarker.Institution;
