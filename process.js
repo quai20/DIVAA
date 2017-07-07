@@ -191,6 +191,10 @@ sidebar.on('hide', function () {
      map.removeLayer(curmarker);
  });
 
+//OUTIL DE RECHERCHE DANS LES FLOTTEURS
+var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
+map.addControl( controlSearch );
+
 //TEST ACCES ERDAPP VIA AJAX
 // $.ajax({
 //       url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?longitude,latitude&time%3E=2017-06-24T00%3A00%3A00Z&time%3C=2017-06-25T00%3A00%3A00Z",
