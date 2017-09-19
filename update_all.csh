@@ -15,10 +15,10 @@ echo ""
 ### AVISO CURRENTS
 echo -n "aviso currents last file : "
 #FIND LAST AVISO FILE
-latest=`ls -1 /home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/madt/all-sat-merged/uv/ | tail -2 | head -1`
+latest=`ls -1 /home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-global-merged-allsat-phy-l4-v3/ | tail -4 | head -1`
 echo $latest
 #FuLL FILE
-flatest="/home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/madt/all-sat-merged/uv/$latest"
+flatest="/home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-global-merged-allsat-phy-l4-v3/$latest"
 #DATE OF DATA
 dlatest=`echo $latest | awk -F"_" '{print $6}'`
 echo -n "... "

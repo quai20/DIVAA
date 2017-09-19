@@ -5,10 +5,10 @@ import os,sys
 my_nc_file = sys.argv[1]
 fh = Dataset(my_nc_file, mode='r')
 
-LON=fh.variables['lon'][:]
-LAT=fh.variables['lat'][:]
-UC=fh.variables['u'][:]
-VC=fh.variables['v'][:]
+LON=fh.variables['longitude'][:]
+LAT=fh.variables['latitude'][:]
+UC=fh.variables['ugos'][:]
+VC=fh.variables['vgos'][:]
 fh.close()
 
 lo1=0
