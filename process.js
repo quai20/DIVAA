@@ -17,7 +17,7 @@ function initDemoMap(){
   );
 
   var Stamen_Toner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
-    attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    attribution: 'Map tiles by Stamen Design, CC BY 3.0 &mdash; Map data &copy; OpenStreetMap',
     subdomains: 'abcd',
     minZoom: 0,
     maxZoom: 20,
@@ -43,13 +43,13 @@ function initDemoMap(){
 
   L.control.mousePosition().addTo(map);
 
-  var credctrl = L.controlCredits({
-    image: "dist/lops.png",
-    link: "http://www.umr-lops.fr/",
-    text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
-    width: 96,
-    height: 88
-  }).addTo(map);
+  //var credctrl = L.controlCredits({
+  //image: "dist/lops.png",
+  //link: "http://www.umr-lops.fr/",
+  //text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
+  //width: 96,
+  //height: 88
+  //}).addTo(map);
 
   return {
     map: map,
@@ -63,6 +63,8 @@ var map = mapStuff.map;
 var layerControl = mapStuff.layerControl;
 ico0 = {iconShape: 'doughnut', borderWidth: 4, borderColor: '#50f308'};
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
+var majaxLayer=L.layerGroup();
+map.addLayer(majaxLayer);
 
 //Side Panel
 var sidebar = L.control.sidebar('sidebar', {
@@ -103,7 +105,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName2='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName2='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a><br><br><center><img src="dist/lops.png"></center>'
   layerControl.addOverlay(velocityLayer2, htmlName2);
 });
 
@@ -172,9 +174,9 @@ function SubMarkerClick(smarker) {
   ti=smarker.Time;
   pl=smarker.Platform;
   inst=smarker.Institution;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+smarker.Platform+"%22&.draw=linesAndMarkers";
+  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
@@ -185,21 +187,24 @@ function SubMarkerClick(smarker) {
   "<br><b>LAST YEAR TRAJECTORY</b>" +
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
+  //TEST ACCES ERDAPP VIA AJAX
+  // $.ajax({
+  //       http://www.ifremer.fr/erddap/tabledap/ArgoFloats.geoJson?time%2Clatitude%2Clongitude&platform_number=%226901603%22&time%3E=2017-01-01T00%3A00%3A00Z&time%3C=2017-09-20T17%3A18%3A20Z
+  //       url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.geoJson?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z";
+  //       url:"https://gist.githubusercontent.com/wavded/1200773/raw/e122cf709898c09758aecfef349964a8d73a83f3/sample.json",
+  //       dataType: 'json',
+  //       success:function(data){
+  //           //console.log(data);
+  //           L.geoJson(data).addTo(majaxLayer);
+  //       }
+  // });
 }
 //REMOVE MARKER
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
+     //majaxLayer.clearLayers();
  });
 
 //OUTIL DE RECHERCHE DANS LES FLOTTEURS
 var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
 map.addControl( controlSearch );
-
-//TEST ACCES ERDAPP VIA AJAX
-// $.ajax({
-//       url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?longitude,latitude&time%3E=2017-06-24T00%3A00%3A00Z&time%3C=2017-06-25T00%3A00%3A00Z",
-//       dataType: 'json',
-//       success:function(data){
-//           console.log(data);
-//       }
-// });
