@@ -43,13 +43,13 @@ function initDemoMap(){
 //MOUSE POSITION BOTTOM LEFT
   L.control.mousePosition().addTo(map);
 //CREDIT FOR LOPS LOGO
-  var credctrl = L.controlCredits({
-  image: "dist/lops.png",
-  link: "http://www.umr-lops.fr/",
-  text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
-  width: 96,
-  height: 88
-  }).addTo(map);
+  // var credctrl = L.controlCredits({
+  // image: "dist/lops.png",
+  // link: "http://www.umr-lops.fr/",
+  // text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
+  // width: 96,
+  // height: 88
+  // }).addTo(map);
 //INIT RETURN FUNCTION
   return {
     map: map,
@@ -130,8 +130,8 @@ $.getJSON('data/andro_gm.json', function (data) {
 });
 
 //ARGO DAY
-ico1 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#fdfe02'};
-ico2 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#ffffff'};
+ico1 = {iconShape: 'circle-dot', borderWidth: 6, borderColor: '#fdfe02'};
+ico2 = {iconShape: 'circle-dot', borderWidth: 6, borderColor: '#ffffff'};
 
 var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
@@ -175,7 +175,7 @@ function SubMarkerClick(smarker) {
   curmarker.setLatLng([smarker.latitude,smarker.longitude]);
   curmarker.addTo(map);
   //CLEAR ANY EXISTING TRAJECTORIES
-  majaxLayer.clearLayers();
+  //majaxLayer.clearLayers();
   //ERDDAP URLs
   ti=smarker.Time;
   pl=smarker.Platform;
@@ -194,29 +194,29 @@ function SubMarkerClick(smarker) {
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
   //TEST ACCES ERDAPP VIA AJAX FOR TRAJECTORIES
-  $.ajax({
-        //http://www.ifremer.fr/erddap/tabledap/ArgoFloats.geoJson?time%2Clatitude%2Clongitude&platform_number=%226901603%22&time%3E=2017-01-01T00%3A00%3A00Z&time%3C=2017-09-20T17%3A18%3A20Z
-        //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&orderBy(%22time%22)",
-        url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&orderBy(%22time%22)",
-        dataType: 'json',
-        success:function(data){
-          var mlatlon=[];
-          for (var i = 0; i < data.table.rows.length; i++)
-            {
-              mlatlon.push([data.table.rows[i][1],data.table.rows[i][2]]);
-            };
-            var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
-            //map.fitBounds(mpoly.getBounds(),{padding:[400,200]});
-          //console.log(data.table);
-          }
-      });
+  // $.ajax({
+  //       //http://www.ifremer.fr/erddap/tabledap/ArgoFloats.geoJson?time%2Clatitude%2Clongitude&platform_number=%226901603%22&time%3E=2017-01-01T00%3A00%3A00Z&time%3C=2017-09-20T17%3A18%3A20Z
+  //       //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&orderBy(%22time%22)",
+  //       url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&orderBy(%22time%22)",
+  //       dataType: 'json',
+  //       success:function(data){
+  //         var mlatlon=[];
+  //         for (var i = 0; i < data.table.rows.length; i++)
+  //           {
+  //             mlatlon.push([data.table.rows[i][1],data.table.rows[i][2]]);
+  //           };
+  //           var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
+  //           //map.fitBounds(mpoly.getBounds(),{padding:[400,200]});
+  //         //console.log(data.table);
+  //         }
+  //     });
 }
 //REMOVE MARKER AND TRAJ WHEN CLOSING PANEL
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
-     majaxLayer.clearLayers();
+    // majaxLayer.clearLayers();
  });
 
 //SEARCH TOOL
-var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
-map.addControl( controlSearch );
+// var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
+// map.addControl( controlSearch );
