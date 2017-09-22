@@ -4,6 +4,6 @@
 ################
 python aviso2json.py $1 > temp
 sed -i 's/masked/0.0/g' temp
-cat temp | json_reformat > ../data/aviso_mdt.json
+cat temp | json_reformat > ../data/aviso.json
 
 rm temp
