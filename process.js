@@ -90,7 +90,7 @@ $.getJSON('data/aviso.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName1='<font color="red">Aviso Currents: '+WDate+'</font> <a target="_blank" href="https://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/madt-h-uv.html"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName1='<font color="red">Aviso Currents: '+WDate+'</font>'
   layerControl.addOverlay(velocityLayer1, htmlName1);
 });
 
@@ -107,7 +107,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName2='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName2='<font color="red">Aviso mdt2013</font>'
   layerControl.addOverlay(velocityLayer2, htmlName2);
 });
 
@@ -124,7 +124,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName3='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName3='<font color="red">Andro deep velocity</font>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
   map.addLayer(velocityLayer3); //Default display when page loads
 });
@@ -147,7 +147,7 @@ for (var i = 0; i < mapdata.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata[i]));
   marker.addTo(argomarkers);
 };
-htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home/"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName4='<font color="blue">Argo floats : '+WDate+'</font>'
 layerControl.addOverlay(argomarkers, htmlName4);
 
 //ARGO 7 DAYS
@@ -165,7 +165,7 @@ for (var i = 0; i < mapdata2.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i]));
   marker.addTo(argomarkers2);
 };
-htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName5='<font color="blue">Argo floats : 7 days</font>'
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
