@@ -9,7 +9,7 @@ wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_this_week_prof.txt
 #
 #### ARGO7
 echo -n "argo 7 last days ... "
-./argo_n.csh
+./argo_n.sh
 echo "ok"
 echo ""
 ### AVISO CURRENTS
@@ -22,12 +22,12 @@ flatest="/home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-globa
 #DATE OF DATA
 dlatest=`echo $latest | awk -F"_" '{print $6}'`
 echo -n "... "
-./aviso2json.csh $flatest
+./aviso2json.sh $flatest
 echo "ok"
 echo ""
 ### ARGO DATE
 echo -n "argo $dlatest ... "
-./argo_pr.csh $dlatest
+./argo_pr.sh $dlatest
 echo "ok"
 #write date
 echo "var WDate = \"$dlatest\";"  > ../data/WDate.js
