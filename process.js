@@ -42,14 +42,6 @@ function initDemoMap(){
   map.setView([40, -20], 4);
 //MOUSE POSITION BOTTOM LEFT
   L.control.mousePosition().addTo(map);
-//CREDIT FOR LOPS LOGO
-  // var credctrl = L.controlCredits({
-  // image: "dist/lops.png",
-  // link: "http://www.umr-lops.fr/",
-  // text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
-  // width: 96,
-  // height: 88
-  // }).addTo(map);
 //INIT RETURN FUNCTION
   return {
     map: map,
@@ -216,7 +208,3 @@ sidebar.on('hide', function () {
      map.removeLayer(curmarker);
     // majaxLayer.clearLayers();
  });
-
-//SEARCH TOOL
-// var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
-// map.addControl( controlSearch );
