@@ -183,6 +183,7 @@ function SubMarkerClick(smarker) {
   tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
@@ -193,10 +194,8 @@ function SubMarkerClick(smarker) {
   "<br><b>LAST YEAR TRAJECTORY</b>" +
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
-  //TEST ACCES ERDAPP VIA AJAX FOR TRAJECTORIES
+  //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES
   $.ajax({
-        //http://www.ifremer.fr/erddap/tabledap/ArgoFloats.geoJson?time%2Clatitude%2Clongitude&platform_number=%226901603%22&time%3E=2017-01-01T00%3A00%3A00Z&time%3C=2017-09-20T17%3A18%3A20Z
-        //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&orderBy(%22time%22)",
         url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&orderBy(%22time%22)",
         dataType: 'json',
         success:function(data){
@@ -206,8 +205,6 @@ function SubMarkerClick(smarker) {
               mlatlon.push([data.table.rows[i][1],data.table.rows[i][2]]);
             };
             var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
-            //map.fitBounds(mpoly.getBounds(),{padding:[400,200]});
-          //console.log(data.table);
           }
       });
 }
