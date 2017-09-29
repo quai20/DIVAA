@@ -179,7 +179,7 @@ function SubMarkerClick(smarker) {
   //DOUGHNUT MARKER ON THE SELECTED FLOAT
   curmarker.setLatLng([smarker.latitude,smarker.longitude]);
   curmarker.addTo(map);
-  //CLEAR ANY EXISTING TRAJECTORIES
+  //CLEAR ANY EXISTING TRAJECTORIES IF CLICK OUTSIDE THE PLOTTED TRAJECTORY
   if(smarker.Platform!=pl){
   majaxLayer.clearLayers();
   insTraj=0;
