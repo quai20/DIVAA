@@ -170,7 +170,7 @@ htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" hre
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
-//TRAJ ALREADY PLOTTED, IF insTraj==1 WE DONT PLOT ANOTHER TRAJ FOR READABILITY
+//TRAJ ALREADY PLOTTED, IF insTraj==1 AND CLICK ON TRAJ WE DON'T PLOT THE SAME TRAJECTORY
 insTraj=0;
 pl='0';
 
