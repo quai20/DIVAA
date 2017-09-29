@@ -132,6 +132,7 @@ $.getJSON('data/andro_gm.json', function (data) {
 //ARGO DAY
 ico1 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#fdfe02'};
 ico2 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#ffffff'};
+ico3 = {iconShape: 'circle-dot', borderWidth: 4, borderColor: '#7de0ba'};
 
 var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
@@ -169,13 +170,20 @@ htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" hre
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
+//TRAJ ALREADY PLOTTED, IF insTraj==1 WE DONT PLOT ANOTHER TRAJ FOR READABILITY
+insTraj=0;
+pl='0';
+
 //SIDE PANEL MANAGEMENT
 function SubMarkerClick(smarker) {
   //DOUGHNUT MARKER ON THE SELECTED FLOAT
   curmarker.setLatLng([smarker.latitude,smarker.longitude]);
   curmarker.addTo(map);
   //CLEAR ANY EXISTING TRAJECTORIES
+  if(smarker.Platform!=pl){
   majaxLayer.clearLayers();
+  insTraj=0;
+  }
   //ERDDAP URLs
   ti=smarker.Time;
   pl=smarker.Platform;
@@ -194,24 +202,37 @@ function SubMarkerClick(smarker) {
   "<br><b>LAST YEAR TRAJECTORY</b>" +
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
-  //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES
+  //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
+  if(insTraj==0){
   $.ajax({
         url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22"+pl+"%22&orderBy(%22time%22)",
         dataType: 'json',
         success:function(data){
+          insTraj=1;
           var mlatlon=[];
           for (var i = 0; i < data.table.rows.length; i++)
             {
+              ajTime=data.table.rows[i][0];
               mlatlon.push([data.table.rows[i][1],data.table.rows[i][2]]);
+              var markaj = L.marker([data.table.rows[i][1],data.table.rows[i][2]],{title: ajTime,icon: L.BeautifyIcon.icon(ico3)});
+              var markstruct={};
+              markstruct.Time=ajTime.substr(0,4)+ajTime.substr(5,2)+ajTime.substr(8,2)+ajTime.substr(11,2)+ajTime.substr(14,2)+ajTime.substr(17,2);
+              markstruct.Platform=pl;
+              markstruct.Institution=inst;
+              markstruct.latitude=data.table.rows[i][1];
+              markstruct.longitude=data.table.rows[i][2];
+              markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
+              markaj.addTo(majaxLayer);
             };
             var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
           }
       });
-}
+}}
 //REMOVE MARKER AND TRAJ WHEN CLOSING PANEL
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
      majaxLayer.clearLayers();
+     insTraj=0;
  });
 
 //SEARCH TOOL
