@@ -190,7 +190,8 @@ function SubMarkerClick(smarker) {
   inst=smarker.Institution;
   tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+  //trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
 
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
@@ -199,7 +200,7 @@ function SubMarkerClick(smarker) {
   "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
   "<br><b>PRACTICAL SALINITY PROFILE</b>" +
   "<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
-  "<br><b>LAST YEAR TRAJECTORY</b>" +
+  "<br><b>FLOAT TRAJECTORY</b>" +
   "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
   sidebar.show();
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
