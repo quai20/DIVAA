@@ -39,7 +39,7 @@ function initDemoMap(){
 //MENU CREATION
   var layerControl = L.control.layers(baseLayers);
   layerControl.addTo(map);
-  map.setView([40, -20], 4);
+  map.setView([40, -42], 4);
 //MOUSE POSITION BOTTOM LEFT
   L.control.mousePosition().addTo(map);
 //CREDIT FOR LOPS LOGO
@@ -48,7 +48,7 @@ function initDemoMap(){
   link: "http://www.umr-lops.fr/",
   text: "<center><b>Laboratoire<br>d'Oceanographie<br>Physique<br>et Spatiale<br>IFREMER 2017</b></center>",
   width: 96,
-  height: 88
+  height: 96
   }).addTo(map);
 //INIT RETURN FUNCTION
   return {
