@@ -205,7 +205,6 @@ function SubMarkerClick(smarker) {
   sidebar.show();
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
   if(insTraj==0){
-
       $.ajax({
         url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&orderBy(%22time%22)',
         dataType: 'jsonp',
