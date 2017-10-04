@@ -203,9 +203,26 @@ function SubMarkerClick(smarker) {
   psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
 
-  sidebar.setContent("<b>Float </b>: "+ pl +
-  "<br><b>Profile date </b>: " + ti +
-  "<br><b>DAC </b>: " + inst +
+  //Project PI Model ajax
+    $.ajax({
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?project_name%2Cpi_name%2Cplatform_type&platform_number=%22"+pl+"%22&distinct()",
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {
+          document.getElementById("ajproject").textContent = ("PROJECT : " + data.table.rows[0][0]);
+          document.getElementById("ajpi").textContent = ("PI : " + data.table.rows[0][1]);
+          document.getElementById("ajmodel").textContent = ("MODEL : " + data.table.rows[0][2]);
+    },
+    type: 'GET'
+    });
+
+  sidebar.setContent("<b>Float : "+ pl +
+  "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
+  "<br>DAC : " + inst +
+  "<br><p id=\"ajproject\"></p>" +
+  "<br><p id=\"ajpi\"></p>" +
+  "<br><p id=\"ajmodel\"></p>" +
   "<br><b>TEMPERATURE PROFILE</b>" +
   "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
   "<br><b>PRACTICAL SALINITY PROFILE</b>" +
