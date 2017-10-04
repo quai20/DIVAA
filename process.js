@@ -313,7 +313,7 @@ map.addControl(controlSearch);
 var optionsT={
     chart: {
         renderTo: 'containerT',
-        type: 'spline',
+        //type: 'spline',
         inverted: true,
         zoomType: "xy"
     },
@@ -362,7 +362,7 @@ var optionsT={
 var optionsS={
     chart: {
         renderTo: 'containerS',
-        type: 'spline',
+        //type: 'spline',
         inverted: true,
         zoomType: "xy"
     },
