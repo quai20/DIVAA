@@ -209,6 +209,7 @@ function SubMarkerClick(smarker) {
   tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+  graphurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.graph?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
 
   //TEST AJAX FOR HIGHCHARTS
   //tempAjx
@@ -235,22 +236,35 @@ function SubMarkerClick(smarker) {
   },
   type: 'GET'
   });
+  //Project PI Model ajax
+  $.ajax({
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?project_name%2Cpi_name%2Cplatform_type&platform_number=%22"+pl+"%22&distinct()",
+  dataType: 'jsonp',
+  jsonp: '.jsonp',
+  cache: 'true',
+  success: function (data) {
+        document.getElementById("ajproject").textContent = ("PROJECT : " + data.table.rows[0][0]);
+        document.getElementById("ajpi").textContent = ("PI : " + data.table.rows[0][1]);
+        document.getElementById("ajmodel").textContent = ("MODEL : " + data.table.rows[0][2]);
+  },
+  type: 'GET'
+  });
 
-  sidebar.setContent("<b>Float </b>: "+ pl +
-  "<br><b>Profile date </b>: " + ti +
-  "<br><b>DAC </b>: " + inst +
-  //"<br><b>TEMPERATURE PROFILE</b>" +
-  //"<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
-  //"<br><b>PRACTICAL SALINITY PROFILE</b>" +
-  //"<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
+  //
+  sidebar.setContent("<b>Float : "+ pl +
+  "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
+  "<br>DAC : " + inst +
+  "<br><p id=\"ajproject\"></p>" +
+  "<br><p id=\"ajpi\"></p>" +
+  "<br><p id=\"ajmodel\"></p>" +
+  "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b> " +
   //HIGHCHARTS
   "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
   "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
-  //TRAJECTORY
-  //"<br><b>FLOAT TRAJECTORY</b>" +
-  //"<br><img src=\""+trajurl+"\" alt=\"not available\"><br>"
-);
+   );
+
   sidebar.show();
+
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
   if(insTraj==0){
       $.ajax({
@@ -311,7 +325,10 @@ var optionsT={
         title: {
             enabled: true,
             text: 'Pressure'
-        }
+        },
+        gridLineDashStyle: 'dash',
+        gridLineColor : 'gray',
+        gridLineWidth : 1
     },
     yAxis: {
     		opposite: true,
@@ -319,7 +336,10 @@ var optionsT={
             enabled: true,
             text: 'Temperature'
         },
-        lineWidth: 2
+        lineWidth: 2,
+        gridLineDashStyle: 'dash',
+        gridLineColor : 'gray',
+        gridLineWidth : 1
     },
     tooltip: {
         headerFormat: '',
@@ -354,7 +374,10 @@ var optionsS={
         title: {
             enabled: true,
             text: 'Pressure'
-        }
+        },
+        gridLineDashStyle: 'dash',
+        gridLineColor : 'gray',
+        gridLineWidth : 1
     },
     yAxis: {
     		opposite: true,
@@ -362,7 +385,10 @@ var optionsS={
             enabled: true,
             text: 'Salinity'
         },
-        lineWidth: 2
+        lineWidth: 2,
+        gridLineDashStyle: 'dash',
+        gridLineColor : 'gray',
+        gridLineWidth : 1
     },
     tooltip: {
         headerFormat: '',

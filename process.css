@@ -1,7 +1,9 @@
 body {
     margin: 0px;
 }
-
+p {
+    display: inline;
+}
 #heading {
     text-align: center;
     padding: 20px;
