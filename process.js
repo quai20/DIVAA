@@ -163,6 +163,24 @@ htmlName5='<font color="blue">Argo floats : 7 days</font>'
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
+//ARGO 30 DAYS DEEP
+var mapdata3=Data_ARGO30DEEP;
+var argomarkers3 = L.layerGroup();
+for (var i = 0; i < mapdata3.length; i++)
+{
+  if(mapdata3[i].Institution == 'IF') {
+    var marker = L.marker([mapdata3[i].latitude,mapdata3[i].longitude],{title: mapdata3[i].Platform,icon: L.BeautifyIcon.icon(ico1)});
+  }
+  else {
+    var marker = L.marker([mapdata3[i].latitude,mapdata3[i].longitude],{title: mapdata3[i].Platform,icon: L.BeautifyIcon.icon(ico2)});
+  }
+  //ONCLIK, CALL SUBMARKERCLICK FUNCTION (SIDE PANEL + TRAJ)
+  marker.on('click',L.bind(SubMarkerClick,null,mapdata3[i]));
+  marker.addTo(argomarkers3);
+};
+htmlName6='<font color="blue">Argo Deep floats : 30 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
+layerControl.addOverlay(argomarkers3, htmlName6);
+
 //TRAJ ALREADY PLOTTED, IF insTraj==1 AND CLICK ON TRAJ WE DON'T PLOT THE SAME TRAJECTORY
 insTraj=0;
 pl='0';
