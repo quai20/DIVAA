@@ -37,7 +37,7 @@ echo "ok"
 #write date
 echo "var WDate = \"$dlatest\";"  > ../data/WDate.js
 #clear
-rm ar_index_this_week_prof.txt
+rm ar_index_*
 #cp to webspace
 cp ../data/ARGO7.js /home/triagoz/webapp/kbalem/data
 cp ../data/ARGO30DEEP.js /home/triagoz/webapp/kbalem/data
