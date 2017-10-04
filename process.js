@@ -170,7 +170,7 @@ htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" hre
 layerControl.addOverlay(argomarkers2, htmlName5);
 map.addLayer(argomarkers2);
 
-//ARGO 7 DAYS DEEP
+//ARGO 30 DAYS DEEP
 var mapdata3=Data_ARGO30DEEP;
 var argomarkers3 = L.layerGroup();
 for (var i = 0; i < mapdata3.length; i++)
@@ -289,8 +289,11 @@ sidebar.on('hide', function () {
  });
 
 //SEARCH TOOL
-var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
-map.addControl( controlSearch );
+//IF ARGO7 SELECTED
+var controlSearch  = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
+//IF ARGO DEEP SELECTED
+//var controlSearch = new L.Control.Search({layer: argomarkers3, initial: false, position:'topleft'});
+map.addControl(controlSearch);
 
 //CHART OPTIONS
 var optionsT={
@@ -331,7 +334,8 @@ var optionsT={
     },
     series: [{
       name: "Temperature",
-      lineWidth: 4
+      lineWidth: 4,
+      lineColor: "#1f4b93"
     }]
 };
 
@@ -373,6 +377,7 @@ var optionsS={
     },
     series: [{
       name: "Salinity",
-      lineWidth: 4
+      lineWidth: 4,
+      lineColor: "#1f4b93"
     }]
 }
