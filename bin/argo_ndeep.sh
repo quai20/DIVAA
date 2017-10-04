@@ -2,7 +2,7 @@
 #K.BALEM
 #2017
 ################
-LA='ar_index_this_week_prof.txt'
+LA='ar_index_global_prof.txt'
 ################
 #repertoire temporaire unique
 tempdir="temp_"`date +%H%M%S`
