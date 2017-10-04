@@ -178,7 +178,7 @@ for (var i = 0; i < mapdata3.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata3[i]));
   marker.addTo(argomarkers3);
 };
-htmlName6='<font color="blue">Argo Deep floats : 30 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName6='<font color="blue">Argo Deep floats : 30 days</font>'
 layerControl.addOverlay(argomarkers3, htmlName6);
 
 //TRAJ ALREADY PLOTTED, IF insTraj==1 AND CLICK ON TRAJ WE DON'T PLOT THE SAME TRAJECTORY
