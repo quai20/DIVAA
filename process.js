@@ -92,6 +92,7 @@ $.getJSON('data/aviso.json', function (data) {
   });
   htmlName1='<font color="red">Aviso Currents: '+WDate+'</font> <a target="_blank" href="https://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/madt-h-uv.html"><img src="dist/info.png" height="15" width="15"></a>'
   layerControl.addOverlay(velocityLayer1, htmlName1);
+  map.addLayer(velocityLayer1); //Default display when page loads
 });
 
 // AVISO MDT
@@ -126,7 +127,6 @@ $.getJSON('data/andro_gm.json', function (data) {
   });
   htmlName3='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
-  map.addLayer(velocityLayer3); //Default display when page loads
 });
 
 //ARGO DAY
@@ -191,17 +191,47 @@ function SubMarkerClick(smarker) {
   tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
-  //trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&time%3E="+(Number(ti.substr(0,4))-1).toString()+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+
+  //TEST AJAX FOR HIGHCHARTS
+  //tempAjx
+  $.ajax({
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {
+        optionsT.series[0].data = data.table.rows;
+        var chart = new Highcharts.Chart(optionsT);
+  },
+  type: 'GET'
+  });
+  //psalAjx
+  $.ajax({
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+  dataType: 'jsonp',
+  jsonp: '.jsonp',
+  cache: 'true',
+  success: function (data) {
+      optionsS.series[0].data = data.table.rows;
+      var chart = new Highcharts.Chart(optionsS);
+  },
+  type: 'GET'
+  });
 
   sidebar.setContent("<b>Float </b>: "+ pl +
   "<br><b>Profile date </b>: " + ti +
   "<br><b>DAC </b>: " + inst +
-  "<br><b>TEMPERATURE PROFILE</b>" +
-  "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
-  "<br><b>PRACTICAL SALINITY PROFILE</b>" +
-  "<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
-  "<br><b>FLOAT TRAJECTORY</b>" +
-  "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
+  //"<br><b>TEMPERATURE PROFILE</b>" +
+  //"<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
+  //"<br><b>PRACTICAL SALINITY PROFILE</b>" +
+  //"<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
+  //HIGHCHARTS
+  "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
+  "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
+  //TRAJECTORY
+  //"<br><b>FLOAT TRAJECTORY</b>" +
+  //"<br><img src=\""+trajurl+"\" alt=\"not available\"><br>"
+);
   sidebar.show();
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
   if(insTraj==0){
@@ -210,7 +240,6 @@ function SubMarkerClick(smarker) {
         dataType: 'jsonp',
         jsonp: '.jsonp',
         cache: 'true',
-        jsonpCallback: 'functionname',
         success: function (data) {
                   insTraj=1;
                   var mlatlon=[];
@@ -244,3 +273,86 @@ sidebar.on('hide', function () {
 //SEARCH TOOL
 var controlSearch = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
 map.addControl( controlSearch );
+
+//CHART OPTIONS
+var optionsT={
+    chart: {
+        renderTo: 'containerT',
+        type: 'spline',
+        inverted: true,
+        zoomType: "xy"
+    },
+    title: {
+        text: 'Temperature profile'
+    },
+    xAxis: {
+        reversed: true,
+        title: {
+            enabled: true,
+            text: 'Pressure'
+        }
+    },
+    yAxis: {
+    		opposite: true,
+        title: {
+            enabled: true,
+            text: 'Temperature'
+        },
+        lineWidth: 2
+    },
+    tooltip: {
+        headerFormat: '',
+        pointFormat: '{point.x} dbar : {point.y}°C'
+    },
+    plotOptions: {
+        spline: {
+            marker: {
+                enable: false
+            }
+        }
+    },
+    series: [{
+      name: "Temperature"
+    }]
+};
+
+var optionsS={
+    chart: {
+        renderTo: 'containerS',
+        type: 'spline',
+        inverted: true,
+        zoomType: "xy"
+    },
+    title: {
+        text: 'Salinity profile'
+    },
+    xAxis: {
+        reversed: true,
+        title: {
+            enabled: true,
+            text: 'Pressure'
+        }
+    },
+    yAxis: {
+    		opposite: true,
+        title: {
+            enabled: true,
+            text: 'Salinity'
+        },
+        lineWidth: 2
+    },
+    tooltip: {
+        headerFormat: '',
+        pointFormat: '{point.x} dbar : {point.y}'
+    },
+    plotOptions: {
+        spline: {
+            marker: {
+                enable: false
+            }
+        }
+    },
+    series: [{
+      name: "Salinity"
+    }]
+}
