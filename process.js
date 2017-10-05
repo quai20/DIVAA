@@ -67,7 +67,11 @@ ico0 = {iconShape: 'doughnut', borderWidth: 4, borderColor: '#50f308'};
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
+var majaxLayerLine=L.layerGroup();
 map.addLayer(majaxLayer);
+//CADDY LAYER, EMPTY AT START
+var caddyLayer=L.layerGroup();
+map.addLayer(caddyLayer);
 //SIDE PANEL
 var sidebar = L.control.sidebar('sidebar', {
   closeButton: true,
@@ -168,6 +172,7 @@ for (var i = 0; i < mapdata2.length; i++)
 };
 htmlName5='<font color="blue">Argo floats : 7 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
 layerControl.addOverlay(argomarkers2, htmlName5);
+//DEFAULT DISPLAY
 map.addLayer(argomarkers2);
 
 //ARGO 30 DAYS DEEP
@@ -200,6 +205,7 @@ function SubMarkerClick(smarker) {
   //CLEAR ANY EXISTING TRAJECTORIES IF CLICK OUTSIDE THE PLOTTED TRAJECTORY
   if(smarker.Platform!=pl){
   majaxLayer.clearLayers();
+  majaxLayerLine.clearLayers();
   insTraj=0;
   }
   //ERDDAP URLs
@@ -289,6 +295,7 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
+                    var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayerLine);
                     var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
                   },
       type: 'GET'
@@ -299,15 +306,32 @@ function SubMarkerClick(smarker) {
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
      majaxLayer.clearLayers();
+     majaxLayerLine.clearLayers();
      insTraj=0;
  });
 
-//SEARCH TOOL
-//IF ARGO7 SELECTED
-var controlSearch  = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
-//IF ARGO DEEP SELECTED
-//var controlSearch = new L.Control.Search({layer: argomarkers3, initial: false, position:'topleft'});
-map.addControl(controlSearch);
+ //DEFAUT SEARCH BAR
+ var controlSearch  = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
+ map.addControl(controlSearch);
+//CHANGE SEARCH LAYER
+map.on('overlayadd', function(eo) {
+    if (eo.name === htmlName4){controlSearch.setLayer(argomarkers);}
+    else if (eo.name === htmlName5){controlSearch.setLayer(argomarkers2);}
+    else if (eo.name === htmlName6){controlSearch.setLayer(argomarkers3);}
+});
+
+//SAVE CADDYLAYER BUTTONS
+var caddybutton = L.easyButton('fa-plus-square', function(){
+    majaxLayerLine.eachLayer(function (layer) {
+      var cloned = cloneLayer(layer);
+      cloned.addTo(caddyLayer);
+        });
+}).addTo(map);
+
+//CLEAR CADDYLAYER
+L.easyButton('fa-trash', function(){
+    caddyLayer.clearLayers();
+}).addTo(map);
 
 //CHART OPTIONS
 var optionsT={
