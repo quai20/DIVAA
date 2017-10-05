@@ -295,8 +295,8 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
-                    var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayerLine);
-                    var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
+                    var mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
+                    var mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
                   },
       type: 'GET'
     });
@@ -321,7 +321,7 @@ map.on('overlayadd', function(eo) {
 });
 
 //SAVE CADDYLAYER BUTTONS
-var caddybutton = L.easyButton('fa-plus-square', function(){
+var caddybutton = L.easyButton('fa-plus', function(){
     majaxLayerLine.eachLayer(function (layer) {
       var cloned = cloneLayer(layer);
       cloned.addTo(caddyLayer);
@@ -331,6 +331,7 @@ var caddybutton = L.easyButton('fa-plus-square', function(){
 //CLEAR CADDYLAYER
 L.easyButton('fa-trash', function(){
     caddyLayer.clearLayers();
+    controlSearch.circleLocation = false;
 }).addTo(map);
 
 //CHART OPTIONS
