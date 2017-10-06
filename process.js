@@ -211,38 +211,10 @@ function SubMarkerClick(smarker) {
   //ERDDAP URLs
   ti=smarker.Time;
   pl=smarker.Platform;
-  inst=smarker.Institution;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+  inst=smarker.Institution;  
   graphurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.graph?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-
-  //TEST AJAX FOR HIGHCHARTS
-  //tempAjx
-  $.ajax({
-    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
-    dataType: 'jsonp',
-    jsonp: '.jsonp',
-    cache: 'true',
-    success: function (data) {
-        optionsT.series[0].data = data.table.rows;
-        var chart = new Highcharts.Chart(optionsT);
-  },
-  type: 'GET'
-  });
-  //psalAjx
-  $.ajax({
-  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
-  dataType: 'jsonp',
-  jsonp: '.jsonp',
-  cache: 'true',
-  success: function (data) {
-      optionsS.series[0].data = data.table.rows;
-      var chart = new Highcharts.Chart(optionsS);
-  },
-  type: 'GET'
-  });
-  //Project PI Model ajax
+  
+  //AJAX REQUEST FOR PROJECT, PI AND MODEL 
   $.ajax({
   url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?project_name%2Cpi_name%2Cplatform_type&platform_number=%22"+pl+"%22&distinct()",
   dataType: 'jsonp',
@@ -255,6 +227,30 @@ function SubMarkerClick(smarker) {
   },
   type: 'GET'
   });
+  //AJAX REQUEST FOR TEMPERATURE PROFILE
+  $.ajax({
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {
+        optionsT.series[0].data = data.table.rows;
+        var chart = new Highcharts.Chart(optionsT);
+  },
+  type: 'GET'
+  });
+  //AJAX DISPLAY FOR SALINITY DISPLAY
+  $.ajax({
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+  dataType: 'jsonp',
+  jsonp: '.jsonp',
+  cache: 'true',
+  success: function (data) {
+      optionsS.series[0].data = data.table.rows;
+      var chart = new Highcharts.Chart(optionsS);
+  },
+  type: 'GET'
+});  
 
   //
   sidebar.setContent("<b>Float : "+ pl +
