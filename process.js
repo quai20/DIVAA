@@ -1,3 +1,4 @@
+var StartTime = Date.now();
 
 function initDemoMap(){
 //BASE TILE LAYER 1
@@ -96,6 +97,7 @@ $.getJSON('data/aviso.json', function (data) {
   });
   htmlName1='<font color="red">Aviso Currents: '+WDate+'</font> <a target="_blank" href="https://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/madt-h-uv.html"><img src="dist/info.png" height="15" width="15"></a>'
   layerControl.addOverlay(velocityLayer1, htmlName1);
+  console.log("AVISO : " + (Date.now()-StartTime) + "ms");
   map.addLayer(velocityLayer1); //Default display when page loads
 });
 
@@ -114,6 +116,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
   });
   htmlName2='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a>'
   layerControl.addOverlay(velocityLayer2, htmlName2);
+  console.log("AVISO MDT : " + (Date.now()-StartTime) + "ms");
 });
 
 // ANDRO
@@ -131,6 +134,7 @@ $.getJSON('data/andro_gm.json', function (data) {
   });
   htmlName3='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
+  console.log("ANDRO : " + (Date.now()-StartTime) + "ms");
 });
 
 //ARGO DAY
@@ -270,7 +274,7 @@ function SubMarkerClick(smarker) {
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
   if(insTraj==0){
       $.ajax({
-        url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&orderBy(%22time%22)',
+        url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&latitude>=-99.999&latitude<=89.784&longitude>=-179.999&longitude<=180&orderBy(%22time%22)',
         dataType: 'jsonp',
         jsonp: '.jsonp',
         cache: 'true',
@@ -428,3 +432,5 @@ var optionsS={
       lineColor: "#1f4b93"
     }]
 }
+
+
