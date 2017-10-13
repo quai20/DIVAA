@@ -37,10 +37,17 @@ function initDemoMap(){
     worldCopyJump: true,
     inertia: false
   });
+
 //MENU CREATION
   var layerControl = L.control.layers(baseLayers);
   layerControl.addTo(map);
   map.setView([40, -42], 4);
+//MINI MAP
+  var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+  var osmAttrib='Map data &copy; OpenStreetMap contributors';
+  L.tileLayer(osmUrl, {attribution: osmAttrib, id: 'mapbox.streets'}).addTo(map);
+  var osm2 = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 1, attribution: osmAttrib });
+  var miniMap = new L.Control.MiniMap(osm2, { toggleDisplay: true }).addTo(map);  
 //MOUSE POSITION BOTTOM LEFT
   L.control.mousePosition().addTo(map);
 //CREDIT FOR LOPS LOGO
