@@ -5,6 +5,7 @@
 cd bin/
 #ARGO INDEX
 wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_global_prof.txt
+#wget ftp://usgodae.org/pub/outgoing/argo/ar_index_global_prof.txt
 wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_this_week_prof.txt
 #
 #### ARGO7
