@@ -84,7 +84,7 @@ map.addLayer(caddyLayer);
 var sidebar = L.control.sidebar('sidebar', {
   closeButton: true,
   position: 'left',
-  autoPan: 'off'
+  autoPan: false
 });
 map.addControl(sidebar);
 
