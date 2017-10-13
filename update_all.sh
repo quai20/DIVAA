@@ -4,9 +4,8 @@
 ################
 cd bin/
 #ARGO INDEX
-#wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_global_prof.txt
+wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_global_prof.txt
 #wget ftp://usgodae.org/pub/outgoing/argo/ar_index_global_prof.txt
-wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_this_week_prof.txt
 #
 #### ARGO7
 echo -n "argo 7 last days ... "
@@ -54,6 +53,8 @@ echo "var WDate = \"$dlatest\";"  > ../data/WDate.js
 #clear
 rm ar_index_*
 #cp to webspace
+echo " "
+echo "copy to triagoz web app..."
 cp ../data/ARGO7.js /home/triagoz/webapp/kbalem/data
 cp ../data/ARGO30DEEP.js /home/triagoz/webapp/kbalem/data
 cp ../data/ARGO.js /home/triagoz/webapp/kbalem/data
