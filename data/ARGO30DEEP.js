@@ -1,6 +1,4 @@
 var Data_ARGO30DEEP = [
-{"latitude":23.832000,"longitude":-73.696000,"mtype":"ARGO30DEEP","Platform":"4902326","Institution":"AO","Time":"20170916013838"}, 
-{"latitude":58.152000,"longitude":-38.534000,"mtype":"ARGO30DEEP","Platform":"6901762","Institution":"IF","Time":"20170916070220"}, 
 {"latitude":-34.072000,"longitude":-158.099000,"mtype":"ARGO30DEEP","Platform":"5902478","Institution":"AO","Time":"20170917024710"}, 
 {"latitude":56.958000,"longitude":-33.857000,"mtype":"ARGO30DEEP","Platform":"6901603","Institution":"IF","Time":"20170917065320"}, 
 {"latitude":-31.900000,"longitude":-153.722000,"mtype":"ARGO30DEEP","Platform":"5904839","Institution":"AO","Time":"20170917073230"}, 

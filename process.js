@@ -75,7 +75,7 @@ ico0 = {iconShape: 'doughnut', borderWidth: 4, borderColor: '#50f308'};
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
-var majaxLayerLine=L.layerGroup();
+var majaxLayerLine=L.layerGroup(); 
 map.addLayer(majaxLayer);
 //CADDY LAYER, EMPTY AT START
 var caddyLayer=L.layerGroup();
