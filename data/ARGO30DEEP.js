@@ -1,11 +1,4 @@
 var Data_ARGO30DEEP = [
-{"latitude":-34.072000,"longitude":-158.099000,"mtype":"ARGO30DEEP","Platform":"5902478","Institution":"AO","Time":"20170917024710"}, 
-{"latitude":56.958000,"longitude":-33.857000,"mtype":"ARGO30DEEP","Platform":"6901603","Institution":"IF","Time":"20170917065320"}, 
-{"latitude":-31.900000,"longitude":-153.722000,"mtype":"ARGO30DEEP","Platform":"5904839","Institution":"AO","Time":"20170917073230"}, 
-{"latitude":23.883000,"longitude":-65.806000,"mtype":"ARGO30DEEP","Platform":"4902324","Institution":"AO","Time":"20170917100535"}, 
-{"latitude":-40.233000,"longitude":116.408000,"mtype":"ARGO30DEEP","Platform":"5902525","Institution":"AO","Time":"20170918015814"}, 
-{"latitude":58.910000,"longitude":-42.180000,"mtype":"ARGO30DEEP","Platform":"6901760","Institution":"IF","Time":"20170918070020"}, 
-{"latitude":-38.137000,"longitude":-156.520000,"mtype":"ARGO30DEEP","Platform":"5904838","Institution":"AO","Time":"20170918193337"}, 
 {"latitude":28.090000,"longitude":-18.365000,"mtype":"ARGO30DEEP","Platform":"6901248","Institution":"IF","Time":"20170919065120"}, 
 {"latitude":-29.909000,"longitude":-173.496000,"mtype":"ARGO30DEEP","Platform":"5902479","Institution":"AO","Time":"20170919094355"}, 
 {"latitude":-22.001000,"longitude":-169.936000,"mtype":"ARGO30DEEP","Platform":"5902456","Institution":"AO","Time":"20170919223337"}, 
@@ -72,4 +65,7 @@ var Data_ARGO30DEEP = [
 {"latitude":-38.049000,"longitude":-156.321000,"mtype":"ARGO30DEEP","Platform":"5904838","Institution":"AO","Time":"20171013165325"}, 
 {"latitude":-31.975000,"longitude":-153.674000,"mtype":"ARGO30DEEP","Platform":"5904839","Institution":"AO","Time":"20171016034554"}, 
 {"latitude":59.476000,"longitude":-38.580000,"mtype":"ARGO30DEEP","Platform":"6901762","Institution":"IF","Time":"20171016071020"}, 
+{"latitude":-35.738000,"longitude":110.137000,"mtype":"ARGO30DEEP","Platform":"5904840","Institution":"AO","Time":"20171017160332"}, 
+{"latitude":60.442000,"longitude":-49.602000,"mtype":"ARGO30DEEP","Platform":"6901760","Institution":"IF","Time":"20171018065520"}, 
+{"latitude":-37.991000,"longitude":-156.303000,"mtype":"ARGO30DEEP","Platform":"5904838","Institution":"AO","Time":"20171018162623"}, 
 ];
