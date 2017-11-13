@@ -8,15 +8,15 @@ LA='ar_index_global_prof.txt'
 tempdir="temp_"`date +%H%M%S`
 mkdir $tempdir
 #dates
-dati=".nc,"`date -d"0 days ago" +%Y%m%d`
-NN=7 #7 DAYS
-for ((o=1; o<=$NN; o++))
+dati=".nc,"`date -d"2 days ago" +%Y%m%d`
+NN=9 #9-3 + 1 = 7 DAYS
+for ((o=3; o<=$NN; o++))
 do
 dati=$dati"|.nc,"`date -d"$o days ago" +%Y%m%d`
 done
 echo $dati
 #
-NAME='ARGO'$NN
+NAME='ARGO7'
 outf=$NAME.js
 ###### GLOBAL ########
 #Selection du type de données dans le fichier source
