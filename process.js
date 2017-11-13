@@ -56,8 +56,15 @@ var map = mapStuff.map;
 // MENU
 var layerControl = mapStuff.layerControl;
 //ICON FOR SELECTED FLOAT
-ico0 = {iconShape: 'doughnut', borderWidth: 6, borderColor: '#50f308'};
+ico0 = {iconShape: 'doughnut', iconSize: [16,16], iconAnchor: [8,8], borderWidth: 5, borderColor: '#f00', backgroundColor: '#f99'}
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
+//ICON FOR IFREMER FLOAT:
+ico1 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
+//ICON FOR ANY OTHER FLOAT:
+ico2 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
+//ICON FOR FLOAT TRAJECTORY:
+ico3 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
+
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
 map.addLayer(majaxLayer);
@@ -123,10 +130,6 @@ $.getJSON('data/andro_gm.json', function (data) {
 });
 
 //ARGO DAY
-ico1 = {iconShape: 'circle-dot', borderWidth: 6, borderColor: '#fdfe02'};
-ico2 = {iconShape: 'circle-dot', borderWidth: 6, borderColor: '#ffffff'};
-ico3 = {iconShape: 'circle-dot', borderWidth: 6, borderColor: '#7de0ba'};
-
 var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
 for (var i = 0; i < mapdata.length; i++)
