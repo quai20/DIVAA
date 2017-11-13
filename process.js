@@ -59,11 +59,11 @@ var layerControl = mapStuff.layerControl;
 ico0 = {iconShape: 'doughnut', iconSize: [16,16], iconAnchor: [8,8], borderWidth: 5, borderColor: '#f00', backgroundColor: '#f99'}
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 //ICON FOR IFREMER FLOAT:
-ico1 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
+ico1 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
 //ICON FOR ANY OTHER FLOAT:
-ico2 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
+ico2 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
 //ICON FOR FLOAT TRAJECTORY:
-ico3 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
+ico3 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
 
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
