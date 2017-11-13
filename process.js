@@ -73,13 +73,10 @@ var layerControl = mapStuff.layerControl;
 //ICON FOR SELECTED FLOAT
 ico0 = {iconShape: 'doughnut', iconSize: [16,16], iconAnchor: [8,8], borderWidth: 5, borderColor: '#f00', backgroundColor: '#f99'}
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
-
 //ICON FOR IFREMER FLOAT:
 ico1 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
-
 //ICON FOR ANY OTHER FLOAT:
 ico2 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
-
 //ICON FOR FLOAT TRAJECTORY:
 ico3 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
 
@@ -162,7 +159,6 @@ $.getJSON('data/andro_gm.json', function (data) {
 });
 
 //ARGO DAY
-
 var mapdata=Data_ARGO;
 var argomarkers = L.layerGroup();
 for (var i = 0; i < mapdata.length; i++)
