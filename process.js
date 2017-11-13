@@ -96,12 +96,13 @@ var sidebar = L.control.sidebar('sidebar', {
 map.addControl(sidebar);
 
 //DATA LAYERS
+
+//ISAS CLIM
 var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO-GLOBAL-ISAS13-CLIM_TIME_SERIE?', {
   layers: 'TEMP',
-  opacity: 0.55
+  opacity: 0.55  
 });
 layerControl.addOverlay(wmsLayer,'<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>');
-
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
