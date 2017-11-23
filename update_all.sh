@@ -8,7 +8,7 @@ wget ftp://ftp.ifremer.fr/ifremer/argo/ar_index_global_prof.txt
 #wget ftp://usgodae.org/pub/outgoing/argo/ar_index_global_prof.txt
 #
 #### ARGO7
-echo -n "argo 7 last days ... "
+echo -n "argo 10 last days ... "
 ./argo_n.sh
 #IF FILE EMPTY, ERROR
 if [ `cat ../data/ARGO7.js | wc -l` -eq 2 ]

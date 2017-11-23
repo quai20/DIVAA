@@ -9,7 +9,7 @@ tempdir="temp_"`date +%H%M%S`
 mkdir $tempdir
 #dates
 dati=".nc,"`date -d"2 days ago" +%Y%m%d`
-NN=9 #9-3 + 1 = 7 DAYS
+NN=12 #9-3 + 1 = 7 DAYS
 for ((o=3; o<=$NN; o++))
 do
 dati=$dati"|.nc,"`date -d"$o days ago" +%Y%m%d`
