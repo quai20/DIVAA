@@ -8,9 +8,9 @@ LA='ar_index_global_prof.txt'
 tempdir="temp_"`date +%H%M%S`
 mkdir $tempdir
 #dates
-dati=".nc,"`date -d"0 days ago" +%Y%m%d`
-NN=30 #30 DAYS
-for ((o=1; o<=$NN; o++))
+dati=".nc,"`date -d"1 days ago" +%Y%m%d`
+NN=31 #30 DAYS
+for ((o=2; o<=$NN; o++))
 do
 dati=$dati"|.nc,"`date -d"$o days ago" +%Y%m%d`
 done
