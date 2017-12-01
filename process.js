@@ -237,7 +237,7 @@ function SubMarkerClick(smarker) {
   if(insTraj==0){
 
       $.ajax({
-        url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&orderBy(%22time%22)',
+        url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&latitude>=-99.999&latitude<=89.784&longitude>=-179.999&longitude<=180&orderBy(%22time%22)',
         dataType: 'jsonp',
         jsonp: '.jsonp',
         cache: 'true',
