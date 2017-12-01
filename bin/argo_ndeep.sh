@@ -16,7 +16,7 @@ dati=$dati"|.nc,"`date -d"$o days ago" +%Y%m%d`
 done
 echo $dati
 #
-NAME='ARGO'$NN'DEEP'
+NAME='ARGO30DEEP'
 outf=$NAME.js
 ###### GLOBAL ########
 #Selection du type de données dans le fichier source
