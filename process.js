@@ -42,6 +42,7 @@ function initDemoMap(){
   var layerControl = L.control.layers(baseLayers);
   layerControl.addTo(map);
   map.setView([40, -42], 4);
+<<<<<<< HEAD
 //MINI MAP
   var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   var osmAttrib='Map data &copy; OpenStreetMap contributors';
@@ -58,6 +59,11 @@ function initDemoMap(){
   width: 96,
   height: 96
   }).addTo(map);
+=======
+//MOUSE POSITION BOTTOM LEFT
+  L.control.mousePosition().addTo(map);
+//CREDIT FOR LOPS LOGO
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
 //INIT RETURN FUNCTION
   return {
     map: map,
@@ -74,11 +80,19 @@ var layerControl = mapStuff.layerControl;
 ico0 = {iconShape: 'doughnut', iconSize: [16,16], iconAnchor: [8,8], borderWidth: 5, borderColor: '#f00', backgroundColor: '#f99'}
 var curmarker = L.marker([0,0],{icon: L.BeautifyIcon.icon(ico0)});
 //ICON FOR IFREMER FLOAT:
+<<<<<<< HEAD
 ico1 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
 //ICON FOR ANY OTHER FLOAT:
 ico2 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
 //ICON FOR FLOAT TRAJECTORY:
 ico3 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
+=======
+ico1 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#fdfe02'}
+//ICON FOR ANY OTHER FLOAT:
+ico2 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
+//ICON FOR FLOAT TRAJECTORY:
+ico3 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
 
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
@@ -117,7 +131,7 @@ $.getJSON('data/aviso.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName1='<font color="red">Aviso Currents: '+WDate+'</font> <a target="_blank" href="https://www.aviso.altimetry.fr/en/data/products/sea-surface-height-products/global/madt-h-uv.html"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName1='<font color="red">Aviso Currents: '+WDate+'</font>'
   layerControl.addOverlay(velocityLayer1, htmlName1);
   console.log("AVISO : " + (Date.now()-StartTime) + "ms");
   map.addLayer(velocityLayer1); //Default display when page loads
@@ -136,7 +150,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName2='<font color="red">Aviso mdt2013</font> <a target="_blank" href="https://www.aviso.altimetry.fr/fr/donnees/produits/produits-auxiliaires/mdt.html"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName2='<font color="red">Aviso mdt2013</font>'
   layerControl.addOverlay(velocityLayer2, htmlName2);
   console.log("AVISO MDT : " + (Date.now()-StartTime) + "ms");
 });
@@ -154,7 +168,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.3
   });
-  htmlName3='<font color="red">Andro deep velocity</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a>'
+  htmlName3='<font color="red">Andro deep velocity</font>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
   console.log("ANDRO : " + (Date.now()-StartTime) + "ms");
 });
@@ -174,7 +188,7 @@ for (var i = 0; i < mapdata.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata[i]));
   marker.addTo(argomarkers);
 };
-htmlName4='<font color="blue">Argo floats : '+WDate+'</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home/"><img src="dist/info.png" height="15" width="15"></a>'
+htmlName4='<font color="blue">Argo floats : '+WDate+'</font>'
 layerControl.addOverlay(argomarkers, htmlName4);
 
 //ARGO 7 DAYS
@@ -192,7 +206,11 @@ for (var i = 0; i < mapdata2.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata2[i]));
   marker.addTo(argomarkers2);
 };
+<<<<<<< HEAD
 htmlName5='<font color="blue">Argo floats : 10 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
+=======
+htmlName5='<font color="blue">Argo floats : 10 days</font>'
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
 layerControl.addOverlay(argomarkers2, htmlName5);
 //DEFAULT DISPLAY
 map.addLayer(argomarkers2);
@@ -212,7 +230,11 @@ for (var i = 0; i < mapdata3.length; i++)
   marker.on('click',L.bind(SubMarkerClick,null,mapdata3[i]));
   marker.addTo(argomarkers3);
 };
+<<<<<<< HEAD
 htmlName6='<font color="blue">Argo Deep floats : 30 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
+=======
+htmlName6='<font color="blue">Argo Deep floats : 30 days</font>'
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
 layerControl.addOverlay(argomarkers3, htmlName6);
 
 //TRAJ ALREADY PLOTTED, IF insTraj==1 AND CLICK ON TRAJ WE DON'T PLOT THE SAME TRAJECTORY
@@ -227,12 +249,16 @@ function SubMarkerClick(smarker) {
   //CLEAR ANY EXISTING TRAJECTORIES IF CLICK OUTSIDE THE PLOTTED TRAJECTORY
   if(smarker.Platform!=pl){
   majaxLayer.clearLayers();
+<<<<<<< HEAD
   majaxLayerLine.clearLayers();
+=======
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
   insTraj=0;
   }
   //ERDDAP URLs
   ti=smarker.Time;
   pl=smarker.Platform;
+<<<<<<< HEAD
   inst=smarker.Institution;  
   graphurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.graph?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   
@@ -252,10 +278,21 @@ function SubMarkerClick(smarker) {
   //AJAX REQUEST FOR TEMPERATURE PROFILE
   $.ajax({
     url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+=======
+  inst=smarker.Institution;
+  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
+  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
+
+  //Project PI Model ajax
+    $.ajax({
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?project_name%2Cpi_name%2Cplatform_type&platform_number=%22"+pl+"%22&distinct()",
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
     dataType: 'jsonp',
     jsonp: '.jsonp',
     cache: 'true',
     success: function (data) {
+<<<<<<< HEAD
         optionsT.series[0].data = data.table.rows;
         var chart = new Highcharts.Chart(optionsT);
   },
@@ -275,12 +312,22 @@ function SubMarkerClick(smarker) {
 });  
 
   //
+=======
+          document.getElementById("ajproject").textContent = ("PROJECT : " + data.table.rows[0][0]);
+          document.getElementById("ajpi").textContent = ("PI : " + data.table.rows[0][1]);
+          document.getElementById("ajmodel").textContent = ("MODEL : " + data.table.rows[0][2]);
+    },
+    type: 'GET'
+    });
+
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
   sidebar.setContent("<b>Float : "+ pl +
   "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
   "<br>DAC : " + inst +
   "<br><p id=\"ajproject\"></p>" +
   "<br><p id=\"ajpi\"></p>" +
   "<br><p id=\"ajmodel\"></p>" +
+<<<<<<< HEAD
   "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b> " +
   //HIGHCHARTS
   "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
@@ -296,6 +343,24 @@ function SubMarkerClick(smarker) {
         dataType: 'jsonp',
         jsonp: '.jsonp',
         cache: 'true',
+=======
+  "<br><b>TEMPERATURE PROFILE</b>" +
+  "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
+  "<br><b>PRACTICAL SALINITY PROFILE</b>" +
+  "<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
+  "<br><b>FLOAT TRAJECTORY</b>" +
+  "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
+  sidebar.show();
+  //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
+  if(insTraj==0){
+
+      $.ajax({
+        url:'http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude&platform_number=%22'+pl+'%22&orderBy(%22time%22)',
+        dataType: 'jsonp',
+        jsonp: '.jsonp',
+        cache: 'true',
+        jsonpCallback: 'functionname',
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
         success: function (data) {
                   insTraj=1;
                   var mlatlon=[];
@@ -313,8 +378,12 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
+<<<<<<< HEAD
                     var mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
                     var mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
+=======
+                    var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
                   },
       type: 'GET'
     });
@@ -324,6 +393,7 @@ function SubMarkerClick(smarker) {
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
      majaxLayer.clearLayers();
+<<<<<<< HEAD
      majaxLayerLine.clearLayers();
      insTraj=0;
  });
@@ -452,3 +522,7 @@ var optionsS={
 }
 
 
+=======
+     insTraj=0;
+ });
+>>>>>>> 44ebcb1c8763a1f31b0ab1977327cc251574447e
