@@ -252,17 +252,17 @@ function SubMarkerClick(smarker) {
   //AJAX REQUEST FOR TEMPERATURE PROFILE
   $.ajax({
     //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",    
-    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp%2Ctime&platform_number=%22"+pl+"%22",        
     dataType: 'jsonp',
     jsonp: '.jsonp',
     cache: 'true',
     success: function (data) {      
         mymatrix=data.table.rows;
-        uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
         outmatrix=[];
-
+        pointTime=ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+"Z";        
         for(var i=0; i<mymatrix.length; i++){
-          if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+          if(mymatrix[i][2].localeCompare(pointTime)==0){
+            //console.log(mymatrix[i][2]);
              outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
            }             
        }        
@@ -274,17 +274,17 @@ function SubMarkerClick(smarker) {
   //AJAX DISPLAY FOR SALINITY DISPLAY
   $.ajax({
   //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
-  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal%2Ctime&platform_number=%22"+pl+"%22",        
   dataType: 'jsonp',
   jsonp: '.jsonp',
   cache: 'true',
   success: function (data) {
     mymatrix=data.table.rows;
-    uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
     outmatrix=[];
-
+    pointTime=ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+"Z";        
     for(var i=0; i<mymatrix.length; i++){
-      if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+      if(mymatrix[i][2].localeCompare(pointTime)==0){
+        //console.log(mymatrix[i][2]);
          outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
        }             
    }        
@@ -469,16 +469,4 @@ var optionsS={
       lineWidth: 4,
       lineColor: "#1f4b93"
     }]
-}
-
-function getUniq(matrix, col){
-  var column = [];
-  var valin = matrix[0][col]
-  for(var i=0; i<matrix.length; i++){
-     if(matrix[i][col] != valin){
-        column.push(matrix[i][col]);
-        valin=matrix[i][col];
-      }             
-  }
-  return column;
 }
