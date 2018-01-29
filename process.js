@@ -202,9 +202,6 @@ function SubMarkerClick(smarker) {
   ti=smarker.Time;
   pl=smarker.Platform;
   inst=smarker.Institution;
-  tempurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  psalurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?psal,pres,temp&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
-  trajurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?longitude,latitude,time&platform_number=%22"+pl+"%22&.draw=linesAndMarkers";
 
   //Project PI Model ajax
     $.ajax({
@@ -220,19 +217,64 @@ function SubMarkerClick(smarker) {
     type: 'GET'
     });
 
-  sidebar.setContent("<b>Float : "+ pl +
-  "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
-  "<br>DAC : " + inst +
-  "<br><p id=\"ajproject\"></p>" +
-  "<br><p id=\"ajpi\"></p>" +
-  "<br><p id=\"ajmodel\"></p>" +
-  "<br><b>TEMPERATURE PROFILE</b>" +
-  "<br><img src=\""+tempurl+"\" alt=\"not available\"><br>" +
-  "<br><b>PRACTICAL SALINITY PROFILE</b>" +
-  "<br><img src=\""+psalurl+"\" alt=\"not available\"><br>" +
-  "<br><b>FLOAT TRAJECTORY</b>" +
-  "<br><img src=\""+trajurl+"\" alt=\"not available\"><br>");
+  //AJAX REQUEST FOR TEMPERATURE PROFILE
+  $.ajax({
+    //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",    
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {      
+        mymatrix=data.table.rows;
+        uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
+        outmatrix=[];
+
+        for(var i=0; i<mymatrix.length; i++){
+          if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+             outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
+           }             
+       }        
+        optionsT.series[0].data = outmatrix;
+        var chart = new Highcharts.Chart(optionsT);        
+  },
+  type: 'GET'
+  });
+  //AJAX DISPLAY FOR SALINITY DISPLAY
+  $.ajax({
+  //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
+  dataType: 'jsonp',
+  jsonp: '.jsonp',
+  cache: 'true',
+  success: function (data) {
+    mymatrix=data.table.rows;
+    uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
+    outmatrix=[];
+
+    for(var i=0; i<mymatrix.length; i++){
+      if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+         outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
+       }             
+   }        
+    optionsS.series[0].data = outmatrix;
+    var chart = new Highcharts.Chart(optionsS);        
+  },
+  type: 'GET'
+});  
+
+ //
+ sidebar.setContent("<b>Float : "+ pl +
+ "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
+ "<br>DAC : " + inst +
+ "<br><p id=\"ajproject\"></p>" +
+ "<br><p id=\"ajpi\"></p>" +
+ "<br><p id=\"ajmodel\"></p>" +
+  //HIGHCHARTS
+ "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
+ "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
+  );
   sidebar.show();
+
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
   if(insTraj==0){
 
@@ -271,3 +313,114 @@ sidebar.on('hide', function () {
      majaxLayer.clearLayers();
      insTraj=0;
  });
+
+ //CHART OPTIONS
+var optionsT={
+  chart: {
+      renderTo: 'containerT',
+      //type: 'spline',
+      inverted: true,
+      zoomType: "xy"
+  },
+  title: {
+      text: 'Temperature profile'
+  },
+  xAxis: {
+      reversed: true,
+      title: {
+          enabled: true,
+          text: 'Pressure'
+      },
+      gridLineDashStyle: 'dash',
+      gridLineColor : 'gray',
+      gridLineWidth : 1
+  },
+  yAxis: {
+      opposite: true,
+      title: {
+          enabled: true,
+          text: 'Temperature'
+      },
+      lineWidth: 2,
+      gridLineDashStyle: 'dash',
+      gridLineColor : 'gray',
+      gridLineWidth : 1
+  },
+  tooltip: {
+      headerFormat: '',
+      pointFormat: '{point.x} dbar : {point.y}Â°C'
+  },
+  plotOptions: {
+      spline: {
+          marker: {
+              enable: false
+          }
+      }
+  },
+  series: [{
+    name: "Temperature",
+    lineWidth: 4,
+    lineColor: "#1f4b93"
+  }]
+};
+
+var optionsS={
+  chart: {
+      renderTo: 'containerS',
+      //type: 'spline',
+      inverted: true,
+      zoomType: "xy"
+  },
+  title: {
+      text: 'Salinity profile'
+  },
+  xAxis: {
+      reversed: true,
+      title: {
+          enabled: true,
+          text: 'Pressure'
+      },
+      gridLineDashStyle: 'dash',
+      gridLineColor : 'gray',
+      gridLineWidth : 1
+  },
+  yAxis: {
+      opposite: true,
+      title: {
+          enabled: true,
+          text: 'Salinity'
+      },
+      lineWidth: 2,
+      gridLineDashStyle: 'dash',
+      gridLineColor : 'gray',
+      gridLineWidth : 1
+  },
+  tooltip: {
+      headerFormat: '',
+      pointFormat: '{point.x} dbar : {point.y}'
+  },
+  plotOptions: {
+      spline: {
+          marker: {
+              enable: false
+          }
+      }
+  },
+  series: [{
+    name: "Salinity",
+    lineWidth: 4,
+    lineColor: "#1f4b93"
+  }]
+}
+
+function getUniq(matrix, col){
+var column = [];
+var valin = matrix[0][col]
+for(var i=0; i<matrix.length; i++){
+   if(matrix[i][col] != valin){
+      column.push(matrix[i][col]);
+      valin=matrix[i][col];
+    }             
+}
+return column;
+}
