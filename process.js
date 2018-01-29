@@ -251,25 +251,45 @@ function SubMarkerClick(smarker) {
   });
   //AJAX REQUEST FOR TEMPERATURE PROFILE
   $.ajax({
-    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+    //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",    
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
     dataType: 'jsonp',
     jsonp: '.jsonp',
     cache: 'true',
-    success: function (data) {
-        optionsT.series[0].data = data.table.rows;
-        var chart = new Highcharts.Chart(optionsT);
+    success: function (data) {      
+        mymatrix=data.table.rows;
+        uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
+        outmatrix=[];
+
+        for(var i=0; i<mymatrix.length; i++){
+          if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+             outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
+           }             
+       }        
+        optionsT.series[0].data = outmatrix;
+        var chart = new Highcharts.Chart(optionsT);        
   },
   type: 'GET'
   });
   //AJAX DISPLAY FOR SALINITY DISPLAY
   $.ajax({
-  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+  //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
+  url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal%2Ccycle_number&platform_number=%22"+pl+"%22&time>="+ti.substr(0,4)+"-01-01T00%3A00%3A00Z",        
   dataType: 'jsonp',
   jsonp: '.jsonp',
   cache: 'true',
   success: function (data) {
-      optionsS.series[0].data = data.table.rows;
-      var chart = new Highcharts.Chart(optionsS);
+    mymatrix=data.table.rows;
+    uniqCycle=getUniq(mymatrix,2); //GET UNIQUE(cycle_number) to avoid erdapp bug
+    outmatrix=[];
+
+    for(var i=0; i<mymatrix.length; i++){
+      if(mymatrix[i][2] == uniqCycle[uniqCycle.length-1]){
+         outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
+       }             
+   }        
+    optionsS.series[0].data = outmatrix;
+    var chart = new Highcharts.Chart(optionsS);        
   },
   type: 'GET'
 });  
@@ -451,4 +471,14 @@ var optionsS={
     }]
 }
 
-
+function getUniq(matrix, col){
+  var column = [];
+  var valin = matrix[0][col]
+  for(var i=0; i<matrix.length; i++){
+     if(matrix[i][col] != valin){
+        column.push(matrix[i][col]);
+        valin=matrix[i][col];
+      }             
+  }
+  return column;
+}
