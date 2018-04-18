@@ -158,7 +158,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     velocityScale: 5,
     colorScale: deepal
   });
-  htmlName3='<font color="red">Andro deep velocity</font>'
+  htmlName3='<font color="red">Andro deep velocity (1000m depth)</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a></font>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
   console.log("ANDRO : " + (Date.now()-StartTime) + "ms");
 });
