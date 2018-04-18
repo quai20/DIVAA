@@ -112,6 +112,8 @@ $.getJSON('data/aviso_mdt.json', function (data) {
 });
 
 // ANDRO
+var deepal = palette('cb-BuGn', 8)
+for (var i = 0; i < deepal.length; i+=1){deepal[i] = "#" + deepal[i]}
 $.getJSON('data/andro_gm.json', function (data) {
   var velocityLayer3 = L.velocityLayer({
     displayValues: true,
@@ -121,8 +123,10 @@ $.getJSON('data/andro_gm.json', function (data) {
       displayEmptyString: 'No velocity data'
     },
     data: data,
-    maxVelocity: 1,
-    velocityScale: 0.3
+    minVelocity: 0,
+    maxVelocity: 0.075,
+    velocityScale: 5,
+    colorScale: deepal
   });
   htmlName3='<font color="red">Andro deep velocity</font>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
