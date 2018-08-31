@@ -1,5 +1,5 @@
-var StartTime = Date.now();
 
+var StartTime = Date.now();
 function initDemoMap(){
 //BASE TILE LAYER 1
   var Esri_WorldImagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {

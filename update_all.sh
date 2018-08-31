@@ -34,10 +34,10 @@ echo ""
 ### AVISO CURRENTS
 echo -n "aviso currents last file : "
 #FIND LAST AVISO FILE
-latest=`ls -1 /home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-global-merged-allsat-phy-l4-v3/*.nc | tail -3 | head -1`
+latest=`ls -1 /home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-global-merged-allsat-phy-l4/????/??/*.nc | tail -2 | head -1`
 echo $latest
 #FuLL FILE
-flatest=$latest #"/home5/pharos/REFERENCE_DATA/ALTIMETRY/DATA/NRT/dataset-duacs-nrt-global-merged-allsat-phy-l4-v3/$latest"
+flatest=$latest
 #DATE OF DATA
 dlatest=`basename $latest | awk -F"_" '{print $6}'`
 echo -n "... "
@@ -60,3 +60,5 @@ cp ../data/ARGO30DEEP.js /home/triagoz/webapp/kbalem/data
 cp ../data/ARGO.js /home/triagoz/webapp/kbalem/data
 cp ../data/WDate.js /home/triagoz/webapp/kbalem/data
 cp ../data/aviso.json /home/triagoz/webapp/kbalem/data
+#cp to screen app
+sshpass -p 'aib6iomoo5giedaiwahC' scp /home4/homedir4/perso/kbalem/DIVAA/data/*.js sftp-divaa@lpo-www.univ-brest.fr:data/
