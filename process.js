@@ -68,6 +68,8 @@ function initDemoMap(){
 // MAP CREATION
 var mapStuff = initDemoMap();
 var map = mapStuff.map;
+
+
 // MENU
 var layerControl = mapStuff.layerControl;
 //ICON FOR SELECTED FLOAT
@@ -95,6 +97,8 @@ var sidebar = L.control.sidebar('sidebar', {
 });
 map.addControl(sidebar);
 
+
+map.spin(true);
 //DATA LAYERS
 
 //ISAS CLIM
@@ -115,12 +119,18 @@ $.getJSON('data/aviso.json', function (data) {
     },
     data: data,
     maxVelocity: 1,
-    velocityScale: 0.3
+    velocityScale: 0.1
   });
   htmlName1='<font color="red">Aviso Currents: '+WDate+'</font>'
   layerControl.addOverlay(velocityLayer1, htmlName1);
-  console.log("AVISO : " + (Date.now()-StartTime) + "ms");
+  console.log("AVISO : " + (Date.now()-StartTime) + "ms");       
+
+  map.on('layeradd', function(){
+    map.spin(false);
+  });
+
   map.addLayer(velocityLayer1); //Default display when page loads
+  
 });
 
 // AVISO MDT
@@ -134,7 +144,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     },
     data: data,
     maxVelocity: 1,
-    velocityScale: 0.3
+    velocityScale: 0.1
   });
   htmlName2='<font color="red">Aviso mdt2013</font>'
   layerControl.addOverlay(velocityLayer2, htmlName2);
@@ -155,7 +165,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     data: data,
     minvelocity: 0,
     maxVelocity: 0.075,
-    velocityScale: 5,
+    velocityScale: 2,
     colorScale: deepal
   });
   htmlName3='<font color="red">Andro deep velocity (1000m depth)</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a></font>'
@@ -181,7 +191,7 @@ for (var i = 0; i < mapdata.length; i++)
 htmlName4='<font color="blue">Argo floats : '+WDate+'</font>'
 layerControl.addOverlay(argomarkers, htmlName4);
 
-//ARGO 7 DAYS
+//ARGO 10 DAYS
 var mapdata2=Data_ARGO7;
 var argomarkers2 = L.layerGroup();
 for (var i = 0; i < mapdata2.length; i++)
