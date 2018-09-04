@@ -76,6 +76,8 @@ var sidebar = L.control.sidebar('sidebar', {
 });
 map.addControl(sidebar);
 
+map.spin(true);
+
 //DATA LAYERS
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
@@ -130,6 +132,11 @@ $.getJSON('data/andro_gm.json', function (data) {
   });
   htmlName3='<font color="red">Andro deep velocity</font>'
   layerControl.addOverlay(velocityLayer3, htmlName3);
+
+  map.on('layeradd', function(){
+    map.spin(false);
+  });
+
   map.addLayer(velocityLayer3); //Default display when page loads
 });
 
