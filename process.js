@@ -39,7 +39,20 @@ function initDemoMap(){
   });
 
 //MENU CREATION
-  var layerControl = L.control.layers(baseLayers);
+  //var layerControl = L.control.layers(baseLayers);
+
+  var groupedOverlays = {
+    "Argo data": {},
+    "Current data": {},
+    "Other": {}
+  };
+  var optionsGr = {
+    // Make the "Landmarks" group exclusive (use radio inputs)
+    exclusiveGroups: ["Argo data","Current data"],
+    groupCheckboxes: false
+  };
+  var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, optionsGr);
+
   layerControl.addTo(map);
   map.setView([40, -42], 4);
 //MINI MAP
@@ -101,12 +114,13 @@ map.addControl(sidebar);
 map.spin(true);
 //DATA LAYERS
 
-//ISAS CLIM
-// var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO-GLOBAL-ISAS13-CLIM_TIME_SERIE?', {
-//   layers: 'TEMP',
-//   opacity: 0.55  
-// });
-// layerControl.addOverlay(wmsLayer,'<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>');
+//ISAS CLIM VIA IFREMER THREDDS
+var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO-GLOBAL-ISAS13-CLIM_TIME_SERIE?', {
+   layers: 'TEMP',
+   opacity: 0.55  
+ });
+ htmlIsas='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>';
+ layerControl.addOverlay(wmsLayer,htmlIsas,"Other");
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
@@ -122,13 +136,11 @@ $.getJSON('data/aviso.json', function (data) {
     velocityScale: 0.1
   });
   htmlName1='<font color="red">Aviso Currents: '+WDate+'</font>'
-  layerControl.addOverlay(velocityLayer1, htmlName1);
+  layerControl.addOverlay(velocityLayer1, htmlName1,"Current data");
   console.log("AVISO : " + (Date.now()-StartTime) + "ms");       
-
   map.on('layeradd', function(){
     map.spin(false);
   });
-
   map.addLayer(velocityLayer1); //Default display when page loads
   
 });
@@ -147,7 +159,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     velocityScale: 0.1
   });
   htmlName2='<font color="red">Aviso mdt2013</font>'
-  layerControl.addOverlay(velocityLayer2, htmlName2);
+  layerControl.addOverlay(velocityLayer2, htmlName2,"Current data");
   console.log("AVISO MDT : " + (Date.now()-StartTime) + "ms");
 });
 
@@ -169,7 +181,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     colorScale: deepal
   });
   htmlName3='<font color="red">Andro deep velocity (1000m depth)</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a></font>'
-  layerControl.addOverlay(velocityLayer3, htmlName3);
+  layerControl.addOverlay(velocityLayer3, htmlName3,"Current data");
   console.log("ANDRO : " + (Date.now()-StartTime) + "ms");
 });
 
@@ -189,7 +201,9 @@ for (var i = 0; i < mapdata.length; i++)
   marker.addTo(argomarkers);
 };
 htmlName4='<font color="blue">Argo floats : '+WDate+'</font>'
-layerControl.addOverlay(argomarkers, htmlName4);
+layerControl.addOverlay(argomarkers, htmlName4,"Argo data");
+//DEFAULT DISPLAY
+map.addLayer(argomarkers);
 
 //ARGO 10 DAYS
 var mapdata2=Data_ARGO7;
@@ -207,9 +221,7 @@ for (var i = 0; i < mapdata2.length; i++)
   marker.addTo(argomarkers2);
 };
 htmlName5='<font color="blue">Argo floats : 10 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
-layerControl.addOverlay(argomarkers2, htmlName5);
-//DEFAULT DISPLAY
-map.addLayer(argomarkers2);
+layerControl.addOverlay(argomarkers2, htmlName5,"Argo data");
 
 //ARGO 30 DAYS DEEP
 var mapdata3=Data_ARGO30DEEP;
@@ -227,7 +239,7 @@ for (var i = 0; i < mapdata3.length; i++)
   marker.addTo(argomarkers3);
 };
 htmlName6='<font color="blue">Argo Deep floats : 30 days</font> <a target="_blank" href="http://www.umr-lops.fr/SO-Argo/Home"><img src="dist/info.png" height="15" width="15"></a>'
-layerControl.addOverlay(argomarkers3, htmlName6);
+layerControl.addOverlay(argomarkers3, htmlName6,"Argo data");
 
 //TRAJ ALREADY PLOTTED, IF insTraj==1 AND CLICK ON TRAJ WE DON'T PLOT THE SAME TRAJECTORY
 insTraj=0;
@@ -244,7 +256,7 @@ function SubMarkerClick(smarker) {
   majaxLayerLine.clearLayers();
   insTraj=0;
   }
-  //ERDDAP URLs
+  //ERDDAP URLs CONF
   ti=smarker.Time;
   pl=smarker.Platform;
   inst=smarker.Institution;  
