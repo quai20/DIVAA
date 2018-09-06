@@ -17,18 +17,16 @@ function initDemoMap(){
     }
   );
 //BASE TILE LAYER 3
-  var Stamen_Toner = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.{ext}', {
-    attribution: 'Map tiles by Stamen Design, CC BY 3.0 &mdash; Map data &copy; OpenStreetMap',
-    subdomains: 'abcd',
-    minZoom: 0,
-    maxZoom: 20,
-    ext: 'png'
-  });
+var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+	maxZoom: 13
+});
+
 //BASE TILE GROUP LAYER
   var baseLayers = {
     "Satellite": Esri_WorldImagery,
-    "Grey ": Esri_DarkGreyCanvas,
-    "Black" : Stamen_Toner
+    "Grey ": Esri_DarkGreyCanvas,    
+    "Ocean" : Esri_OceanBasemap
   };
 //MAP STRUCTURE
   var map = L.map('map', {
@@ -39,16 +37,14 @@ function initDemoMap(){
   });
 
 //MENU CREATION
-  //var layerControl = L.control.layers(baseLayers);
-
+  
   var groupedOverlays = {
     "Argo data": {},
     "Current data": {},
     "Other": {}
   };
-  var optionsGr = {
-    // Make the "Landmarks" group exclusive (use radio inputs)
-    exclusiveGroups: ["Argo data","Current data"],
+  var optionsGr = {    
+    exclusiveGroups: ["Current data"],
     groupCheckboxes: false
   };
   var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, optionsGr);
@@ -82,7 +78,6 @@ function initDemoMap(){
 var mapStuff = initDemoMap();
 var map = mapStuff.map;
 
-
 // MENU
 var layerControl = mapStuff.layerControl;
 //ICON FOR SELECTED FLOAT
@@ -110,17 +105,20 @@ var sidebar = L.control.sidebar('sidebar', {
 });
 map.addControl(sidebar);
 
-
+//LOADING SPINNER
 map.spin(true);
-//DATA LAYERS
 
+//DATA LAYERS
 //ISAS CLIM VIA IFREMER THREDDS
-var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO-GLOBAL-ISAS13-CLIM_TIME_SERIE?', {
-   layers: 'TEMP',
-   opacity: 0.55  
- });
- htmlIsas='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>';
- layerControl.addOverlay(wmsLayer,htmlIsas,"Other");
+// var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO_GLOBANA_ISAS13_MNTH_TIME_SERIE?', {
+//    layers: 'TEMP',
+//    opacity: 0.55  
+//  });
+//  htmlIsas='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>';
+//  SpanIsas="<span id='isastag'>"+htmlIsas+"</span>"
+//  htmlIsas_withLegend='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a><br><img src="dist/LPO_GLOBANA_ISAS13_MNTH_TIME_SERIE.png" style="width:100%;height:100%;">'; 
+//  layerControl.addOverlay(wmsLayer,SpanIsas,"Other");
+
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
@@ -141,7 +139,7 @@ $.getJSON('data/aviso.json', function (data) {
   map.on('layeradd', function(){
     map.spin(false);
   });
-  map.addLayer(velocityLayer1); //Default display when page loads
+ map.addLayer(velocityLayer1); //Default display when page loads
   
 });
 
@@ -359,8 +357,16 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
-                    var mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
-                    var mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
+                    mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
+                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
+
+                    mpoly.on('mouseover',function(e){
+                      document.getElementById('map').style.cursor = 'crosshair'           
+                      console.log("on line")                                                       
+                      });
+                    mpoly.on('mouseout',function(e){
+                      document.getElementById('map').style.cursor = ''                                                                  
+                          });                                
                   },
       type: 'GET'
     });
@@ -375,14 +381,20 @@ sidebar.on('hide', function () {
  });
 
  //DEFAUT SEARCH BAR
- var controlSearch  = new L.Control.Search({layer: argomarkers2, initial: false, position:'topleft'});
+ var controlSearch  = new L.Control.Search({layer: argomarkers, initial: false, position:'topleft'});
  map.addControl(controlSearch);
-//CHANGE SEARCH LAYER
+ //CHANGE SEARCH LAYER
 map.on('overlayadd', function(eo) {
     if (eo.name === htmlName4){controlSearch.setLayer(argomarkers);}
     else if (eo.name === htmlName5){controlSearch.setLayer(argomarkers2);}
     else if (eo.name === htmlName6){controlSearch.setLayer(argomarkers3);}
+   // else if (eo.name === SpanIsas){document.getElementById('isastag').innerHTML = htmlIsas_withLegend;} //for ISAS legend
 });
+
+// map.on('overlayremove', function(eo) {
+//   if (eo.name === SpanIsas){document.getElementById('isastag').innerHTML = htmlIsas; //for ISAS legend
+//   }
+// });
 
 //SAVE CADDYLAYER BUTTONS
 var caddybutton = L.easyButton('fa-plus', function(){
@@ -441,6 +453,9 @@ var optionsT={
             }
         }
     },
+    credits: {
+      enabled: false
+    },
     series: [{
       name: "Temperature",
       lineWidth: 4,
@@ -489,6 +504,9 @@ var optionsS={
                 enable: false
             }
         }
+    },
+    credits: {
+      enabled: false
     },
     series: [{
       name: "Salinity",
