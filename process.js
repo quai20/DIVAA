@@ -325,7 +325,8 @@ function SubMarkerClick(smarker) {
   "<br><p id=\"ajproject\"></p>" +
   "<br><p id=\"ajpi\"></p>" +
   "<br><p id=\"ajmodel\"></p>" +
-  "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b> " +
+  "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b><br>" +
+  "<a onclick=\"plotSectionT("+pl+")\"><b>Temperature section</b></a>  / <a onclick=\"plotSectionS("+pl+")\"><b>Salinity section</b></a>" + 
   //HIGHCHARTS
   "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
   "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
@@ -359,6 +360,9 @@ function SubMarkerClick(smarker) {
                     };
                     mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
                     mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
+                    mpoly.on('click',function(e){                      
+                      console.log(e)                                                       
+                      });
                               
                   },
       type: 'GET'
@@ -402,6 +406,17 @@ L.easyButton('fa-trash', function(){
     caddyLayer.clearLayers();
     controlSearch.circleLocation = false;
 }).addTo(map);
+
+function plotSectionT(float) {
+  URLT="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?cycle_number,pres,temp&platform_number=%22"+float+"%22&orderBy(%22cycle_number%2Cpres%22)&.draw=markers&.marker=4%7C5&.color=0xFFFFFF&.colorBar=Rainbow2%7C%7C%7C%7C%7C&.bgColor=0xffccccff&.yRange=%7C%7Cfalse";  
+  var winc = L.control.window(map, {position: 'top', title: float, content: '<img src="'+URLT+'">' });  
+  winc.show()    
+}
+function plotSectionS(float) {
+  URLS="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?cycle_number,pres,psal&platform_number=%22"+float+"%22&orderBy(%22cycle_number%2Cpres%22)&.draw=markers&.marker=4%7C5&.color=0xFFFFFF&.colorBar=Rainbow2%7C%7C%7C%7C%7C&.bgColor=0xffccccff&.yRange=%7C%7Cfalse";
+  var winc = L.control.window(map, {position: 'top', title: float, content: '<img src="'+URLS+'">' });  
+  winc.show()    
+}
 
 //CHART OPTIONS
 var optionsT={
