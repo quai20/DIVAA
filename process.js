@@ -359,14 +359,7 @@ function SubMarkerClick(smarker) {
                     };
                     mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
                     mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
-
-                    mpoly.on('mouseover',function(e){
-                      document.getElementById('map').style.cursor = 'crosshair'           
-                      console.log("on line")                                                       
-                      });
-                    mpoly.on('mouseout',function(e){
-                      document.getElementById('map').style.cursor = ''                                                                  
-                          });                                
+                              
                   },
       type: 'GET'
     });
