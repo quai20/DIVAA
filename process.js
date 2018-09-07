@@ -175,7 +175,7 @@ $.getJSON('data/andro_gm.json', function (data) {
     data: data,
     minvelocity: 0,
     maxVelocity: 0.075,
-    velocityScale: 2,
+    velocityScale: 1,
     colorScale: deepal
   });
   htmlName3='<font color="red">Andro deep velocity (1000m depth)</font> <a target="_blank" href="https://wwz.ifremer.fr/lpo/Produits/ANDRO"><img src="dist/info.png" height="15" width="15"></a></font>'
@@ -358,8 +358,8 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
-                    mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2}).addTo(majaxLayerLine);
-                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2}).addTo(majaxLayer);
+                    mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayerLine);
+                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayer);
                     mpoly.on('click',function(e){                      
                       console.log(e)                                                       
                       });
@@ -397,6 +397,8 @@ map.on('overlayadd', function(eo) {
 var caddybutton = L.easyButton('fa-plus', function(){
     majaxLayerLine.eachLayer(function (layer) {
       var cloned = cloneLayer(layer);
+      //console.log(cloned)
+      cloned.options.color = getRandomColor();
       cloned.addTo(caddyLayer);
         });
 }).addTo(map);
@@ -416,6 +418,12 @@ function plotSectionS(float) {
   URLS="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?cycle_number,pres,psal&platform_number=%22"+float+"%22&orderBy(%22cycle_number%2Cpres%22)&.draw=markers&.marker=4%7C5&.color=0xFFFFFF&.colorBar=Rainbow2%7C%7C%7C%7C%7C&.bgColor=0xffccccff&.yRange=%7C%7Cfalse";
   var winc = L.control.window(map, {position: 'top', title: float, content: '<img src="'+URLS+'">' });  
   winc.show()    
+}
+
+function getRandomColor() {  
+  var colorl= ['#0084ff','#44bec7','#ffc300','#fa3c4c','#d696bb','#966842','#f44747','#eedc31','#7fdb6a','#0e68ce']
+  rind=Math.floor(Math.random()*colorl.length-2);
+  return colorl[rind];;
 }
 
 //CHART OPTIONS
