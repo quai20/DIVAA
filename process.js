@@ -344,9 +344,14 @@ var caddybutton = L.easyButton('fa-plus', function(){
 
 //CLEAR CADDYLAYER
 L.easyButton('fa-trash', function(){
-  caddyLayer.clearLayers();
-  controlSearch.circleLocation = false;
+  caddyLayer.clearLayers();  
 }).addTo(map);
+
+function getRandomColor() {  
+  var colorl= ['#0084ff','#44bec7','#ffc300','#fa3c4c','#d696bb','#966842','#f44747','#eedc31','#7fdb6a','#0e68ce']
+  rind=Math.floor(Math.random()*colorl.length-2);
+  return colorl[rind];;
+}
 
  //CHART OPTIONS
 var optionsT={
