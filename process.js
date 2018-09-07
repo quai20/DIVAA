@@ -67,7 +67,12 @@ ico3 = {iconShape: 'doughnut', iconSize: [12,12], iconAnchor: [6,6], borderWidth
 
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
+var majaxLayerLine=L.layerGroup(); 
 map.addLayer(majaxLayer);
+//CADDY LAYER, EMPTY AT START
+var caddyLayer=L.layerGroup();
+map.addLayer(caddyLayer);
+
 //SIDE PANEL
 var sidebar = L.control.sidebar('sidebar', {
   closeButton: true,
@@ -312,7 +317,8 @@ function SubMarkerClick(smarker) {
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
-                    var mpoly = L.polyline(mlatlon, {color: '#45f442', smoothFactor: 2}).addTo(majaxLayer);
+                    mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayerLine);
+                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayer);
                   },
       type: 'GET'
     });
@@ -322,8 +328,25 @@ function SubMarkerClick(smarker) {
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
      majaxLayer.clearLayers();
+     majaxLayerLine.clearLayers();
      insTraj=0;
  });
+
+//SAVE CADDYLAYER BUTTONS
+var caddybutton = L.easyButton('fa-plus', function(){
+  majaxLayerLine.eachLayer(function (layer) {
+    var cloned = cloneLayer(layer);
+    //console.log(cloned)
+    cloned.options.color = getRandomColor();
+    cloned.addTo(caddyLayer);
+      });
+}).addTo(map);
+
+//CLEAR CADDYLAYER
+L.easyButton('fa-trash', function(){
+  caddyLayer.clearLayers();
+  controlSearch.circleLocation = false;
+}).addTo(map);
 
  //CHART OPTIONS
 var optionsT={
