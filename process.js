@@ -109,16 +109,58 @@ map.addControl(sidebar);
 map.spin(true);
 
 //DATA LAYERS
-//ISAS CLIM VIA IFREMER THREDDS
-// var wmsLayer = L.tileLayer.wms('http://tds0.ifremer.fr/thredds/wms/LPO_GLOBANA_ISAS13_MNTH_TIME_SERIE?', {
-//    layers: 'TEMP',
-//    opacity: 0.55  
-//  });
-//  htmlIsas='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a>';
-//  SpanIsas="<span id='isastag'>"+htmlIsas+"</span>"
-//  htmlIsas_withLegend='<font color="green">Climatology ISAS13 </font> <a target="_blank" href="http://sextant.ifremer.fr/fr/geoportail/sextant#/search?fast=index&_content_type=json&from=1&to=20&sortBy=popularity&_groupPublished=OCEANO_PHYSIQUE_SPATIALE"><img src="dist/info.png" height="15" width="15"></a><br><img src="dist/LPO_GLOBANA_ISAS13_MNTH_TIME_SERIE.png" style="width:100%;height:100%;">'; 
-//  layerControl.addOverlay(wmsLayer,SpanIsas,"Other");
 
+var today = new Date();
+var dd = today.getDate() - 1;
+if(dd<10){dd='0'+dd.toString();} else{dd=dd.toString();}
+var mm = today.getMonth() + 1; //January is 0!
+if(mm<10){mm='0'+mm.toString();} else{mm=mm.toString();}
+var yyyy = today.getFullYear();
+yyyy=yyyy.toString()
+
+//SST VIA CMEMS WMS
+var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2?', {
+   layers: 'analysed_sst',
+   opacity: 0.35,
+   colorscalerange: '271.0,303.0',
+   abovemaxcolor: "extend",
+   belowmincolor: "extend",
+   numcolorbands: 30,
+   time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+   styles: 'boxfill/rainbow'
+});
+htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SST_GLO_SST_L4_NRT_OBSERVATIONS_010_014"><img src="dist/info.png" height="15" width="15"></a></font>';
+Spansst="<span id='ssttag'>"+htmlsst+"</span>"
+layerControl.addOverlay(wmsLayer0,Spansst,"SST");
+
+//SEA ICE VIA CMEMS WMS
+var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?', {
+   layers: 'ice_conc',
+   opacity: 0.35,   
+   colorscalerange: '0.0,99.9',
+   abovemaxcolor: "extend",
+   belowmincolor: "extend",
+   numcolorbands: 30,    
+   time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+   styles: 'boxfill/rainbow'
+});
+htmlSI1='<font color="green">Arctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a></font>';
+SpanSI1="<span id='seaice1tag'>"+htmlSI1+"</span>"
+layerControl.addOverlay(wmsLayer1,SpanSI1,"Sea Ice Concentration");
+//
+var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-SOUTH-L4-NRT-OBS?', {
+    layers: 'ice_conc',
+    opacity: 0.35,
+    colorscalerange: '0.0,99.9',
+    abovemaxcolor: "extend",
+    belowmincolor: "extend",
+    numcolorbands: 30,    
+    time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+    styles: 'boxfill/rainbow'    
+});
+htmlSI2='<font color="green">Antarctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a></font>';
+SpanSI2="<span id='seaice2tag'>"+htmlSI2+"</span>"
+layerControl.addOverlay(wmsLayer2,SpanSI2,"Sea Ice Concentration");
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
