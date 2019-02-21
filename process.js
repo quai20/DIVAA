@@ -84,6 +84,59 @@ map.addControl(sidebar);
 map.spin(true);
 
 //DATA LAYERS
+
+var today = new Date();
+var dd = today.getDate() - 1;
+if(dd<10){dd='0'+dd.toString();} else{dd=dd.toString();}
+var mm = today.getMonth() + 1; //January is 0!
+if(mm<10){mm='0'+mm.toString();} else{mm=mm.toString();}
+var yyyy = today.getFullYear();
+yyyy=yyyy.toString()
+
+//SST VIA CMEMS WMS
+var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2?', {
+   layers: 'analysed_sst',
+   opacity: 0.35,
+   colorscalerange: '271.0,303.0',
+   abovemaxcolor: "extend",
+   belowmincolor: "extend",
+   numcolorbands: 30,
+   time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+   styles: 'boxfill/rainbow'
+});
+htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font>';
+Spansst="<span id='ssttag'>"+htmlsst+"</span>"
+layerControl.addOverlay(wmsLayer0,Spansst,"SST");
+
+//SEA ICE VIA CMEMS WMS
+var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?', {
+   layers: 'ice_conc',
+   opacity: 0.35,   
+   colorscalerange: '0.0,99.9',
+   abovemaxcolor: "extend",
+   belowmincolor: "extend",
+   numcolorbands: 30,    
+   time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+   styles: 'boxfill/rainbow'
+});
+htmlSI1='<font color="green">Arctic '+yyyy+'-'+mm+'-'+dd+'</font>';
+SpanSI1="<span id='seaice1tag'>"+htmlSI1+"</span>"
+layerControl.addOverlay(wmsLayer1,SpanSI1,"Sea Ice Concentration");
+//
+var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-SOUTH-L4-NRT-OBS?', {
+    layers: 'ice_conc',
+    opacity: 0.35,
+    colorscalerange: '0.0,99.9',
+    abovemaxcolor: "extend",
+    belowmincolor: "extend",
+    numcolorbands: 30,    
+    time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
+    styles: 'boxfill/rainbow'    
+});
+htmlSI2='<font color="green">Antarctic '+yyyy+'-'+mm+'-'+dd+'</font>';
+SpanSI2="<span id='seaice2tag'>"+htmlSI2+"</span>"
+layerControl.addOverlay(wmsLayer2,SpanSI2,"Sea Ice Concentration");
+
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
   var velocityLayer1 = L.velocityLayer({
