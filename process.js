@@ -122,7 +122,7 @@ yyyy=yyyy.toString()
 var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2?', {
    layers: 'analysed_sst',
    opacity: 0.35,
-   colorscalerange: '271.0,303.0',
+   colorscalerange: '270.0,305.0',
    abovemaxcolor: "extend",
    belowmincolor: "extend",
    numcolorbands: 30,
@@ -131,7 +131,7 @@ var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GL
 });
 htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SST_GLO_SST_L4_NRT_OBSERVATIONS_010_014"><img src="dist/info.png" height="15" width="15"></a>';
 Spansst="<span id='ssttag'>"+htmlsst+"</span>"
-layerControl.addOverlay(wmsLayer0,Spansst,"SST");
+layerControl.addOverlay(wmsLayer0,Spansst,'SST <a onclick=plotSSTlegend()><img src="dist/legend.png" height="15" width="15"></a>');
 
 //SEA ICE VIA CMEMS WMS
 var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?', {
@@ -146,7 +146,7 @@ var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SE
 });
 htmlSI1='<font color="green">Arctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a>';
 SpanSI1="<span id='seaice1tag'>"+htmlSI1+"</span>"
-layerControl.addOverlay(wmsLayer1,SpanSI1,"Sea Ice Concentration");
+layerControl.addOverlay(wmsLayer1,SpanSI1,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="15" width="15"></a>');
 //
 var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-SOUTH-L4-NRT-OBS?', {
     layers: 'ice_conc',
@@ -160,7 +160,7 @@ var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SE
 });
 htmlSI2='<font color="green">Antarctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a>';
 SpanSI2="<span id='seaice2tag'>"+htmlSI2+"</span>"
-layerControl.addOverlay(wmsLayer2,SpanSI2,"Sea Ice Concentration");
+layerControl.addOverlay(wmsLayer2,SpanSI2,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="15" width="15"></a>');
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
@@ -426,14 +426,8 @@ sidebar.on('hide', function () {
 map.on('overlayadd', function(eo) {
     if (eo.name === htmlName4){controlSearch.setLayer(argomarkers);}
     else if (eo.name === htmlName5){controlSearch.setLayer(argomarkers2);}
-    else if (eo.name === htmlName6){controlSearch.setLayer(argomarkers3);}
-   // else if (eo.name === SpanIsas){document.getElementById('isastag').innerHTML = htmlIsas_withLegend;} //for ISAS legend
+    else if (eo.name === htmlName6){controlSearch.setLayer(argomarkers3);}   
 });
-
-// map.on('overlayremove', function(eo) {
-//   if (eo.name === SpanIsas){document.getElementById('isastag').innerHTML = htmlIsas; //for ISAS legend
-//   }
-// });
 
 //SAVE CADDYLAYER BUTTONS
 var caddybutton = L.easyButton('fa-plus', function(){
@@ -459,6 +453,18 @@ function plotSectionT(float) {
 function plotSectionS(float) {
   URLS="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?cycle_number,pres,psal&platform_number=%22"+float+"%22&orderBy(%22cycle_number%2Cpres%22)&.draw=markers&.marker=4%7C5&.color=0xFFFFFF&.colorBar=Rainbow2%7C%7C%7C%7C%7C&.bgColor=0xffccccff&.yRange=%7C%7Cfalse";
   var winc = L.control.window(map, {position: 'top', title: float, content: '<img src="'+URLS+'">' });  
+  winc.show()    
+}
+
+function plotSSTlegend() {
+  URLL="http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=analysed_sst&COLORSCALERANGE=207,305";  
+  var winc = L.control.window(map, {position: 'left', title: false, content: '<img src="'+URLL+'">' });  
+  winc.show()    
+}
+
+function plotICElegend() {
+  URLI="http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=ice_conc&COLORSCALERANGE=0,99.9";  
+  var winc = L.control.window(map, {position: 'left', title: false, content: '<img src="'+URLI+'">' });  
   winc.show()    
 }
 

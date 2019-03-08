@@ -40,7 +40,7 @@
 
 .control-window{
     border-radius: 10px;
-    background-color: #ffffff;
+    background-color: #000000;
     color: #353535;
     font: 13px/1.0 "Helvetica Neue", Arial, Helvetica, sans-serif;    
 }
@@ -66,23 +66,23 @@
     cursor: pointer;
     z-index:30;
 
-    background-color: rgba(0, 0, 0, 0.40);
+    background-color: rgba(0, 0, 0, 0.4);
     transition-property: background;
     transition-duration: 0.2s;
     transition-timing-function: linear;
 
-    color: #000000;
+    color: #ffffff;
     font-size: 25pt;    
     text-align: center;
     line-height: 1.0em;
 }
 
 .leaflet-control-window .close:hover {
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: rgba(255, 255, 255, 0.65);
 }
 
 .leaflet-control-window .content{
-    padding: 50px;
+    padding: 5px;
     margin-top: -10px;
     z-index:29;
     overflow: auto;
