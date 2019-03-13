@@ -131,7 +131,7 @@ var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GL
 });
 htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SST_GLO_SST_L4_NRT_OBSERVATIONS_010_014"><img src="dist/info.png" height="15" width="15"></a>';
 Spansst="<span id='ssttag'>"+htmlsst+"</span>"
-layerControl.addOverlay(wmsLayer0,Spansst,'SST <a onclick=plotSSTlegend()><img src="dist/legend.png" height="15" width="15"></a>');
+layerControl.addOverlay(wmsLayer0,Spansst,'SST <a onclick=plotSSTlegend()><img src="dist/legend.png" height="13" width="13"></a>');
 
 //SEA ICE VIA CMEMS WMS
 var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?', {
@@ -146,7 +146,7 @@ var wmsLayer1 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SE
 });
 htmlSI1='<font color="green">Arctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a>';
 SpanSI1="<span id='seaice1tag'>"+htmlSI1+"</span>"
-layerControl.addOverlay(wmsLayer1,SpanSI1,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="15" width="15"></a>');
+layerControl.addOverlay(wmsLayer1,SpanSI1,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="13" width="13"></a>');
 //
 var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-SOUTH-L4-NRT-OBS?', {
     layers: 'ice_conc',
@@ -160,7 +160,7 @@ var wmsLayer2 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SE
 });
 htmlSI2='<font color="green">Antarctic '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SEAICE_GLO_SEAICE_L4_NRT_OBSERVATIONS_011_001"><img src="dist/info.png" height="15" width="15"></a>';
 SpanSI2="<span id='seaice2tag'>"+htmlSI2+"</span>"
-layerControl.addOverlay(wmsLayer2,SpanSI2,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="15" width="15"></a>');
+layerControl.addOverlay(wmsLayer2,SpanSI2,'Sea Ice Concentration <a onclick=plotICElegend()><img src="dist/legend.png" height="13" width="13"></a>');
 
 // AVISO
 $.getJSON('data/aviso.json', function (data) {
