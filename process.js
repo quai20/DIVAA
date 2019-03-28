@@ -89,11 +89,15 @@ ico1 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 
 ico2 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#eee'}
 //ICON FOR FLOAT TRAJECTORY:
 ico3 = {iconShape: 'doughnut', iconSize: [9,9], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#7de0ba'}
+//ICON FOR NEAREST PROFILES:
+ico4 = {iconShape: 'doughnut', iconSize: [7,7], iconAnchor: [4,4], borderWidth: 1, borderColor: '#000', backgroundColor: '#f69314'}
 
 //TRAJ LAYER, EMPTY AT START
 var majaxLayer=L.layerGroup();
+var nearestLayer=L.layerGroup();
 var majaxLayerLine=L.layerGroup(); 
 map.addLayer(majaxLayer);
+map.addLayer(nearestLayer);
 //CADDY LAYER, EMPTY AT START
 var caddyLayer=L.layerGroup();
 map.addLayer(caddyLayer);
@@ -290,6 +294,7 @@ function SubMarkerClick(smarker) {
   //DOUGHNUT MARKER ON THE SELECTED FLOAT
   curmarker.setLatLng([smarker.latitude,smarker.longitude]);
   curmarker.addTo(map);
+  nearestLayer.clearLayers();
   //CLEAR ANY EXISTING TRAJECTORIES IF CLICK OUTSIDE THE PLOTTED TRAJECTORY
   if(smarker.Platform!=pl){
   majaxLayer.clearLayers();
@@ -299,6 +304,8 @@ function SubMarkerClick(smarker) {
   //ERDDAP URLs CONF
   ti=smarker.Time;
   pl=smarker.Platform;
+  ula=smarker.latitude;
+  ulo=smarker.longitude;
   inst=smarker.Institution;  
   graphurl="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.graph?temp,pres,psal&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z&platform_number=%22"+pl+"%22&.draw=linesAndMarkers&.yRange=%7C%7Cfalse";
   
@@ -315,7 +322,24 @@ function SubMarkerClick(smarker) {
   },
   type: 'GET'
   });
+
+  //SET SIDEBAR
+  sidebar.setContent("<b>Float : "+ pl +
+  "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
+  "<br>DAC : " + inst +
+  "<br><p id=\"ajproject\"></p>" +
+  "<br><p id=\"ajpi\"></p>" +
+  "<br><p id=\"ajmodel\"></p>" +
+  "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b><br>" +
+  "<a onclick=\"plotSectionT("+pl+")\"><b>Temperature section</b></a>  / <a onclick=\"plotSectionS("+pl+")\"><b>Salinity section</b></a><br>" +
+  "<a onclick=\"NearestProfiles("+pl+","+ti+","+ula+","+ulo+")\"><img src=\"dist/nearme.png\" height=\"18\" width=\"18\" style=\"position:relative; top:-2px;\">  <b>Nearest profiles</b></a>"+
+  //HIGHCHARTS
+  "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
+  "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
+   );
+
   //AJAX REQUEST FOR TEMPERATURE PROFILE
+  var Tchart = new Highcharts.Chart(optionsT);        
   $.ajax({
     //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",    
     url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Ctemp%2Ctime&platform_number=%22"+pl+"%22",        
@@ -331,13 +355,20 @@ function SubMarkerClick(smarker) {
             //console.log(mymatrix[i][2]);
              outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
            }             
-       }        
-        optionsT.series[0].data = outmatrix;
-        var chart = new Highcharts.Chart(optionsT);        
+       }         
+        Tchart.addSeries({
+            name: "Temperature",
+            lineWidth: 4,
+            lineColor: "#1f4b93",
+            zIndex: 100,
+            data: outmatrix});
+        Tchart.redraw();        
   },
   type: 'GET'
   });
-  //AJAX DISPLAY FOR SALINITY DISPLAY
+
+    //AJAX DISPLAY FOR SALINITY DISPLAY
+  var Schart = new Highcharts.Chart(optionsS);          
   $.ajax({
   //url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal&platform_number=%22"+pl+"%22&time="+ti.substr(0,4)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z",
   url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?pres%2Cpsal%2Ctime&platform_number=%22"+pl+"%22",        
@@ -354,26 +385,17 @@ function SubMarkerClick(smarker) {
          outmatrix.push([mymatrix[i][0],mymatrix[i][1]]);             
        }             
    }        
-    optionsS.series[0].data = outmatrix;
-    var chart = new Highcharts.Chart(optionsS);        
+   Schart.addSeries({
+      name: "Salinity",
+      lineWidth: 4,
+      lineColor: "#1f4b93",
+      zIndex: 100,
+      data: outmatrix});
+  Schart.redraw(); 
   },
   type: 'GET'
 });  
-
-  //
-  sidebar.setContent("<b>Float : "+ pl +
-  "<br>Profile date : " + ti.substr(0,4)+"."+ti.substr(4,2)+"."+ti.substr(6,2)+"  "+ti.substr(8,2)+":"+ti.substr(10,2)+":"+ti.substr(12,2)+
-  "<br>DAC : " + inst +
-  "<br><p id=\"ajproject\"></p>" +
-  "<br><p id=\"ajpi\"></p>" +
-  "<br><p id=\"ajmodel\"></p>" +
-  "<br><a href='" + graphurl + "' target='blank'>Access profile data (erddap Ifremer)</a></b><br>" +
-  "<a onclick=\"plotSectionT("+pl+")\"><b>Temperature section</b></a>  / <a onclick=\"plotSectionS("+pl+")\"><b>Salinity section</b></a>" + 
-  //HIGHCHARTS
-  "<br><div id=\"containerT\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>" +
-  "<br><div id=\"containerS\" style=\"min-width: 310px; height: 450px; max-width: 400px; margin: 0 auto\"></div><br>"
-   );
-
+  // SHOW SIDEBAR
   sidebar.show();
 
   //ACCES ERDAPP VIA AJAX FOR TRAJECTORIES AND PROFILES HISTORICAL
@@ -415,6 +437,7 @@ function SubMarkerClick(smarker) {
 sidebar.on('hide', function () {
      map.removeLayer(curmarker);
      majaxLayer.clearLayers();
+     nearestLayer.clearLayers();
      majaxLayerLine.clearLayers();
      insTraj=0;
  });
@@ -455,30 +478,124 @@ function plotSectionS(float) {
   var winc = L.control.window(map, {position: 'top', title: float, content: '<img src="'+URLS+'">' });  
   winc.show()    
 }
-
 function plotSSTlegend() {
   URLL="http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GLO-SST-L4-NRT-OBS-SST-V2?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=analysed_sst&COLORSCALERANGE=207,305";  
   var winc = L.control.window(map, {position: 'left', title: false, content: '<img src="'+URLL+'">' });  
   winc.show()    
 }
-
 function plotICElegend() {
   URLI="http://nrt.cmems-du.eu/thredds/wms/METNO-GLO-SEAICE_CONC-NORTH-L4-NRT-OBS?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=ice_conc&COLORSCALERANGE=0,99.9";  
   var winc = L.control.window(map, {position: 'left', title: false, content: '<img src="'+URLI+'">' });  
   winc.show()    
 }
-
 function getRandomColor() {  
   var colorl= ['#0084ff','#44bec7','#ffc300','#fa3c4c','#d696bb','#966842','#f44747','#eedc31','#7fdb6a','#0e68ce']
   rind=Math.floor(Math.random()*colorl.length-2);
   return colorl[rind];;
+}
+function NearestProfiles(pl,ti,ula,ulo) {
+
+  map.spin(true);
+
+  ti=String(ti) 
+  pl=String(pl)
+  // AJAX REQUEST FOR NEAREST TEMPERATURE PROFILE (+-0.1°lat, +-0.2°lon, +-365jours)
+  zt1=ti.substr(0,4)-1+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z";       
+  zt2=ti.substr(0,4)-(-1)+"-"+ti.substr(4,2)+"-"+ti.substr(6,2)+"T"+ti.substr(8,2)+"%3A"+ti.substr(10,2)+"%3A"+ti.substr(12,2)+"Z";        
+  zla1=ula-0.1;
+  zla2=ula+0.1;
+  zlo1=ulo-0.2;
+  zlo2=ulo+0.2;
+
+  $.ajax({    
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Cpres%2Ctemp&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Cpres%2Ctemp%22)",            
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {      
+        Tchart=$("#containerT").highcharts();
+        mymatrix=data.table.rows;
+        outmatrix=[];                
+        for(var i=0; i<mymatrix.length-1; i++){                          
+          outmatrix.push([mymatrix[i][2],mymatrix[i][3]]);        
+          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (i==mymatrix.length-2)){
+            Tchart.addSeries({
+              name: "Nearest Profile",
+              lineWidth: 2,
+              lineColor: "#f69314",
+              zIndex: 0,
+              enableMouseTracking: false,
+              showInLegend: false,
+              data: outmatrix});
+             outmatrix=[];           
+          }
+        }                   
+        Tchart.redraw();
+        map.spin(false);
+      },
+    error: function () {map.spin(false);},  
+  type: 'GET'
+  });
+
+  // AJAX REQUEST FOR NEAREST SALINITY PROFILE (+-0.1°lat, +-0.2°lon, +-365jours)
+  $.ajax({    
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Cpres%2Cpsal&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Cpres%2Cpsal%22)",        
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {      
+        Schart=$("#containerS").highcharts();
+        mymatrix=data.table.rows;
+        outmatrix=[];        
+        for(var i=0; i<mymatrix.length-1; i++){                
+          outmatrix.push([mymatrix[i][2],mymatrix[i][3]]);                     
+          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (i==mymatrix.length-2)){
+            Schart.addSeries({
+              name: "Nearest Profile",
+              lineWidth: 2,
+              lineColor: "#f69314",
+              zIndex: 0,
+              enableMouseTracking: false,
+              showInLegend: false,
+              data: outmatrix});
+             outmatrix=[];           
+          }
+        } 
+        Schart.redraw();               
+        map.spin(false); 
+      },
+    error: function () {map.spin(false);},         
+  type: 'GET'
+  });
+
+  //NEAREST POINTS
+  $.ajax({
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?time%2Clatitude%2Clongitude%2Cplatform_number%2Ccycle_number&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22",
+    dataType: 'jsonp',
+    jsonp: '.jsonp',
+    cache: 'true',
+    success: function (data) {                                  
+              for (var i = 0; i < data.table.rows.length; i++)
+                {
+                  ajTime=data.table.rows[i][0];                      
+                  ajPlatf=data.table.rows[i][3];
+                  ajCycle=data.table.rows[i][4];                                            
+                  var markaj = L.marker([data.table.rows[i][1],data.table.rows[i][2]],{icon: L.BeautifyIcon.icon(ico4)});                                            
+                  markaj.bindPopup('<center><b>'+ajPlatf+'</b> -'+ajCycle+'<br>'+ajTime+'</center>')
+                  markaj.addTo(nearestLayer);                  
+                };
+              map.spin(false);                                                  
+              },
+    error: function () {map.spin(false);},             
+  type: 'GET'
+  });      
 }
 
 //CHART OPTIONS
 var optionsT={
     chart: {
         renderTo: 'containerT',
-        //type: 'spline',
+        type: 'spline',
         inverted: true,
         zoomType: "xy"
     },
@@ -519,14 +636,8 @@ var optionsT={
     },
     credits: {
       enabled: false
-    },
-    series: [{
-      name: "Temperature",
-      lineWidth: 4,
-      lineColor: "#1f4b93"
-    }]
+    }  
 };
-
 var optionsS={
     chart: {
         renderTo: 'containerS',
@@ -571,10 +682,5 @@ var optionsS={
     },
     credits: {
       enabled: false
-    },
-    series: [{
-      name: "Salinity",
-      lineWidth: 4,
-      lineColor: "#1f4b93"
-    }]
+     }    
 }
