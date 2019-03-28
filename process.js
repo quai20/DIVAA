@@ -508,7 +508,7 @@ function NearestProfiles(pl,ti,ula,ulo) {
   zlo2=ulo+0.2;
 
   $.ajax({    
-    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Cpres%2Ctemp&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Cpres%2Ctemp%22)",            
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Ctime%2Cpres%2Ctemp&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Ctime%2Cpres%2Ctemp%22)",            
     dataType: 'jsonp',
     jsonp: '.jsonp',
     cache: 'true',
@@ -517,8 +517,8 @@ function NearestProfiles(pl,ti,ula,ulo) {
         mymatrix=data.table.rows;
         outmatrix=[];                
         for(var i=0; i<mymatrix.length-1; i++){                          
-          outmatrix.push([mymatrix[i][2],mymatrix[i][3]]);        
-          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (i==mymatrix.length-2)){
+          outmatrix.push([mymatrix[i][3],mymatrix[i][4]]);        
+          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (mymatrix[i][2]!=mymatrix[i+1][2]) || (i==mymatrix.length-2)){
             Tchart.addSeries({
               name: "Nearest Profile",
               lineWidth: 2,
@@ -539,7 +539,7 @@ function NearestProfiles(pl,ti,ula,ulo) {
 
   // AJAX REQUEST FOR NEAREST SALINITY PROFILE (+-0.1°lat, +-0.2°lon, +-365jours)
   $.ajax({    
-    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Cpres%2Cpsal&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Cpres%2Cpsal%22)",        
+    url:"http://www.ifremer.fr/erddap/tabledap/ArgoFloats.json?platform_number%2Ccycle_number%2Ctime%2Cpres%2Cpsal&time%3E="+zt1+"&time%3C="+zt2+"&latitude%3E="+zla1+"&latitude%3C="+zla2+"&longitude%3E="+zlo1+"&longitude%3C="+zlo2+"&platform_number!=%22"+pl+"%22&orderBy(%22platform_number%2Ccycle_number%2Ctime%2Cpres%2Cpsal%22)",        
     dataType: 'jsonp',
     jsonp: '.jsonp',
     cache: 'true',
@@ -548,8 +548,8 @@ function NearestProfiles(pl,ti,ula,ulo) {
         mymatrix=data.table.rows;
         outmatrix=[];        
         for(var i=0; i<mymatrix.length-1; i++){                
-          outmatrix.push([mymatrix[i][2],mymatrix[i][3]]);                     
-          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (i==mymatrix.length-2)){
+          outmatrix.push([mymatrix[i][3],mymatrix[i][4]]);                     
+          if((mymatrix[i][0]!=mymatrix[i+1][0]) || (mymatrix[i][1]!=mymatrix[i+1][1]) || (mymatrix[i][2]!=mymatrix[i+1][2]) || (i==mymatrix.length-2)){
             Schart.addSeries({
               name: "Nearest Profile",
               lineWidth: 2,
