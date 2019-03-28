@@ -37,14 +37,13 @@ var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
   });
 
 //MENU CREATION
-  
   var groupedOverlays = {
     "Argo data": {},
     "Current data": {},
     "Other": {}
   };
   var optionsGr = {    
-    exclusiveGroups: ["Current data"],
+    //exclusiveGroups: ["Current data"],
     groupCheckboxes: false
   };
   var layerControl = L.control.groupedLayers(baseLayers, groupedOverlays, optionsGr);
