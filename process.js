@@ -112,7 +112,6 @@ map.addControl(sidebar);
 map.spin(true);
 
 //DATA LAYERS
-
 var today = new Date();
 var dd = today.getDate() - 1;
 if(dd<10){dd='0'+dd.toString();} else{dd=dd.toString();}
@@ -466,6 +465,14 @@ L.easyButton('fa-trash', function(){
     caddyLayer.clearLayers();
     controlSearch.circleLocation = false;
 }).addTo(map);
+
+L.easyButton('fa-camera', function(){      
+  html2canvas(document.getElementById('map'),{useCORS: true}).then(function(canvas) {
+      canvas.toBlob(function(blob) {
+      saveAs(blob, 'DIVAA-export-'+String(Date.now())+'.png');
+    });
+  });    
+}).addTo(map); 
 
 function plotSectionT(float) {
   URLT="http://www.ifremer.fr/erddap/tabledap/ArgoFloats.png?cycle_number,pres,temp&platform_number=%22"+float+"%22&orderBy(%22cycle_number%2Cpres%22)&.draw=markers&.marker=4%7C5&.color=0xFFFFFF&.colorBar=Rainbow2%7C%7C%7C%7C%7C&.bgColor=0xffccccff&.yRange=%7C%7Cfalse";  
