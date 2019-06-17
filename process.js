@@ -466,6 +466,7 @@ L.easyButton('fa-trash', function(){
     controlSearch.circleLocation = false;
 }).addTo(map);
 
+//SCREENSHOT FEATURE
 L.easyButton('fa-camera', function(){      
   html2canvas(document.getElementById('map'),{useCORS: true}).then(function(canvas) {
       canvas.toBlob(function(blob) {
