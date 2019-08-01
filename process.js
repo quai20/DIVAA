@@ -411,25 +411,48 @@ function SubMarkerClick(smarker) {
                       ajTime=data.table.rows[i][0];
                       mlatlon.push([data.table.rows[i][1],data.table.rows[i][2]]);
                       var markaj = L.marker([data.table.rows[i][1],data.table.rows[i][2]],{title: ajTime,icon: L.BeautifyIcon.icon(ico3)});
-                      var markstruct={};
+                      var markstruct={};                      
                       markstruct.Time=ajTime.substr(0,4)+ajTime.substr(5,2)+ajTime.substr(8,2)+ajTime.substr(11,2)+ajTime.substr(14,2)+ajTime.substr(17,2);
                       markstruct.Platform=pl;
                       markstruct.Institution=inst;
                       markstruct.latitude=data.table.rows[i][1];
                       markstruct.longitude=data.table.rows[i][2];
+                      //target_vel = L.latLng(markstruct.latitude,markstruct.longitude,0)
                       markaj.on('click',L.bind(SubMarkerClick,null,markstruct));
                       markaj.addTo(majaxLayer);
                     };
                     mpoly = L.polyline(mlatlon, {color: '#8efcff', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayerLine);
-                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayer);
-                    mpoly.on('click',function(e){                      
-                      console.log(e)                                                       
-                      });
-                              
+                    mpoly = L.polyline(mlatlon, {color: '#45f442', weight:3, smoothFactor: 2, opacity: 0.8}).addTo(majaxLayer);                                                            
+
+                    //FORECAST VELOCITY LAYER      
+                    // forecast(target_vel)
+                                       
                   },
       type: 'GET'
     });
 }}
+
+// function forecast(thisPoint) {
+//   $.getJSON('data/aviso.json', function (data) {                                           
+//       veltemp=L.velocityLayer({
+//         displayValues: false,                                  
+//         data: data,
+//         min_velocity: 0,
+//         maxVelocity: 2.0,
+//         velocityScale: 0.5,
+//         colorScale: ['yellow'],
+//         click: thisPoint,
+//         mode: "HIT",
+//         particleMultiplier: 1/3000,
+//         fade: true,
+//         area : 35,
+//         aging : true,
+//         particleAge : 100
+//       });
+//       majaxLayer.addLayer(veltemp)
+//     });
+// }
+
 
 //REMOVE MARKER AND TRAJ WHEN CLOSING PANEL
 sidebar.on('hide', function () {
@@ -691,3 +714,13 @@ var optionsS={
       enabled: false
      }    
 }
+
+
+
+//TEMPORAIRE, AVEC LA VERSION DE PLOCAN DE VELOCITY, LE BUG EST REVENU
+// map.on({
+//   overlayadd: function(e) {
+//       a=map.getCenter();
+//       map.panTo([a.lat+0.01,a.lng+0.01]);
+//   }
+// });
