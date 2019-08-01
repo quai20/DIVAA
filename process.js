@@ -131,7 +131,7 @@ var wmsLayer0 = L.tileLayer.wms('http://nrt.cmems-du.eu/thredds/wms/METOFFICE-GL
    time: yyyy+'-'+mm+'-'+dd+'T12:00:00.000Z',
    styles: 'boxfill/rainbow'
 });
-htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SST_GLO_SST_L4_NRT_OBSERVATIONS_010_014"><img src="dist/info.png" height="15" width="15"></a>';
+htmlsst='<font color="magenta">SST '+yyyy+'-'+mm+'-'+dd+'</font> <a target="_blank" href="http://marine.copernicus.eu/services-portfolio/access-to-products/?option=com_csw&view=details&product_id=SST_GLO_SST_L4_NRT_OBSERVATIONS_010_001"><img src="dist/info.png" height="15" width="15"></a>';
 Spansst="<span id='ssttag'>"+htmlsst+"</span>"
 layerControl.addOverlay(wmsLayer0,Spansst,'SST <a onclick=plotSSTlegend()><img src="dist/legend.png" height="13" width="13"></a>');
 
