@@ -1,6 +1,6 @@
 #!/bin/sh
-#K.BALEM
-#2017
+#MIT License
+#Copyright (c) 2019 K.BALEM
 ################
 python aviso2json.py $1 > temp
 sed -i 's/masked/0.0/g' temp

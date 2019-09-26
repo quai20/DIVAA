@@ -1,6 +1,6 @@
 #!/bin/sh
-#K.BALEM
-#2017
+#MIT License
+#Copyright (c) 2019 K.BALEM
 ################
 LA='ar_index_global_prof.txt'
 ################

@@ -1,3 +1,6 @@
+#MIT License
+#Copyright (c) 2019 K.BALEM
+
 import numpy as np
 from netCDF4 import Dataset
 import os,sys
