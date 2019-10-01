@@ -1,4 +1,4 @@
-![image](./data/DIVAA-export.png = 480x240)
+<img src="data/DIVAA-export.png" width="480" height="240" />
 
 DIVAA
 =====
