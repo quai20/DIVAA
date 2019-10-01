@@ -1,7 +1,6 @@
-<img src="data/DIVAA-export.png" width="480" height="240" />
-
 DIVAA
 =====
+<img src="data/DIVAA-export.png" width="480" height="240" />
 
 KBLM  
 LOPS-2017  
