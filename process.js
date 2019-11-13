@@ -200,7 +200,7 @@ $.getJSON('data/aviso_mdt.json', function (data) {
     maxVelocity: 1,
     velocityScale: 0.1
   });
-  htmlName2='<font color="red">Aviso mdt2013</font>'
+  htmlName2='<font color="red">Aviso mdt 2018</font>'
   layerControl.addOverlay(velocityLayer2, htmlName2,"Current data");
   console.log("AVISO MDT : " + (Date.now()-StartTime) + "ms");
 });
