@@ -66,7 +66,8 @@ var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest
   width: 96,
   height: 96
   }).addTo(map);
-//INIT RETURN FUNCTION
+
+    //INIT RETURN FUNCTION
   return {
     map: map,
     layerControl: layerControl
@@ -714,8 +715,6 @@ var optionsS={
       enabled: false
      }    
 }
-
-
 
 //TEMPORAIRE, AVEC LA VERSION DE PLOCAN DE VELOCITY, LE BUG EST REVENU
 // map.on({

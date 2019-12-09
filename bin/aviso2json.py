@@ -14,11 +14,11 @@ UC=fh.variables['ugos'][:]
 VC=fh.variables['vgos'][:]
 fh.close()
 
-lo1=0
-lo2=360
+lo1=0.125
+lo2=360.0
 nx=1440
-la1=90
-la2=-90
+la1=89.875
+la2=-90.125
 ny=720
 
 evelf=[]
