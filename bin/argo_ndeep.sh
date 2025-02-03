@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #MIT License
 #Copyright (c) 2019 K.BALEM
 ################
@@ -23,7 +23,7 @@ outf=$NAME.js
 grep "/profiles/" $LA | grep -E $dati > $tempdir/temp1
 #On ne garde que les DEEP
 #On recupere lat,lon, le nom de la platform, date de la data, institution
-awk -F"," '{if($6==838 || $6==849 || $6==862 || $6==864 || $6==874)   print $3","$4","substr($1,match($1,"/profiles/")-7,7)","$2","$7}' $tempdir/temp1 > $tempdir/temp2
+awk -F"," '{if($6==838 || $6==849 || $6==862 || $6==864 || $6==874 || $6==882 || $6==883)   print $3","$4","substr($1,match($1,"/profiles/")-7,7)","$2","$7}' $tempdir/temp1 > $tempdir/temp2
 #On trie fonction du temps
 sort $tempdir/temp2 -k4 -t, > $tempdir/temp3
 #On commence le .js

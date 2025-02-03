@@ -1,17 +1,18 @@
+#!/opt/anaconda3/envs/cmto2/bin/python
 #MIT License
 #Copyright (c) 2019 K.BALEM
 
 import numpy as np
-from netCDF4 import Dataset
+import xarray as xr
 import os,sys
 
 my_nc_file = sys.argv[1]
-fh = Dataset(my_nc_file, mode='r')
+fh = xr.open_dataset(my_nc_file)
 
-LON=fh.variables['longitude'][:]
-LAT=fh.variables['latitude'][:]
-UC=fh.variables['ugos'][:]
-VC=fh.variables['vgos'][:]
+LON=fh['longitude'].values
+LAT=fh['latitude'].values
+UC=fh['ugos'].values
+VC=fh['vgos'].values
 fh.close()
 
 #lo1=0.125
@@ -34,44 +35,44 @@ for i in range(ny) :
 #nvelf=np.array(nvelf)
 
 #HEAD 1
-print '[{'
-print '"header":{'
-print '"parameterUnit" : "m.s-1",'
-print '"parameterNumber" : 2,'
-print '"dx" : 0.25,'
-print '"dy" : 0.25,'
-print '"parameterNumberName" : "eastward velocity",'
-print '"la1" : '+str(la1)+','
-print '"lo1" : '+str(lo1)+','
-print '"la2" : '+str(la2)+','
-print '"lo2" : '+str(lo2)+','
-print '"nx" : '+str(nx)+','
-print '"ny" : '+str(ny)+','
-print '"reftime" : "today",'
-print '"parameterCategory" : 2'
-print '},'
+print('[{')
+print('"header":{')
+print('"parameterUnit" : "m.s-1",')
+print('"parameterNumber" : 2,')
+print('"dx" : 0.25,')
+print('"dy" : 0.25,')
+print('"parameterNumberName" : "eastward velocity",')
+print('"la1" : '+str(la1)+',')
+print('"lo1" : '+str(lo1)+',')
+print('"la2" : '+str(la2)+',')
+print('"lo2" : '+str(lo2)+',')
+print('"nx" : '+str(nx)+',')
+print('"ny" : '+str(ny)+',')
+print('"reftime" : "today",')
+print('"parameterCategory" : 2')
+print('},')
 #DATA 1
-print '"data":'
-print evelf
-print '},'
+print('"data":')
+print(evelf)
+print('},')
 #HEAD 2
-print '{'
-print '"header":{'
-print '"parameterUnit" : "m.s-1",'
-print '"parameterNumber" : 3,'
-print '"dx" : 0.25,'
-print '"dy" : 0.25,'
-print '"parameterNumberName" : "northward velocity",'
-print '"la1" : '+str(la1)+','
-print '"lo1" : '+str(lo1)+','
-print '"la2" : '+str(la2)+','
-print '"lo2" : '+str(lo2)+','
-print '"nx" : '+str(nx)+','
-print '"ny" : '+str(ny)+','
-print '"reftime" : "today",'
-print '"parameterCategory" : 2'
-print '},'
+print('{')
+print('"header":{')
+print('"parameterUnit" : "m.s-1",')
+print('"parameterNumber" : 3,')
+print('"dx" : 0.25,')
+print('"dy" : 0.25,')
+print('"parameterNumberName" : "northward velocity",')
+print('"la1" : '+str(la1)+',')
+print('"lo1" : '+str(lo1)+',')
+print('"la2" : '+str(la2)+',')
+print('"lo2" : '+str(lo2)+',')
+print('"nx" : '+str(nx)+',')
+print('"ny" : '+str(ny)+',')
+print('"reftime" : "today",')
+print('"parameterCategory" : 2')
+print('},')
 #DATA 1
-print '"data":'
-print nvelf
-print '}]'
+print('"data":')
+print(nvelf)
+print('}]')
